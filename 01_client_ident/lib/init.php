@@ -1,6 +1,6 @@
 <?php
 
-include "vendor/autoload.php";
+include "../vendor/autoload.php";
 
 $config = array(
     'client_id'=>'XXXX',
