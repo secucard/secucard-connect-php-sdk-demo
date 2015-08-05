@@ -5,7 +5,7 @@
 Authenticate via client_credentials and create Ident requests and process it.  
 
 Auth: client_credentials  
-Showcase: Ident/*
+Showcase: Services/Ident*
 
 ## Demo 02
 
