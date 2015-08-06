@@ -1,5 +1,7 @@
 <?php
 
+include "lib/init.php";
+
 function gotObjectPush(secucard\client\base\MainModel $obj) {
     var_dump($obj);
 }

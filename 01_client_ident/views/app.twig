@@ -1,0 +1,22 @@
+{% extends "base.twig" %}
+
+{% block project %}Demo 01{% endblock %}
+
+{% block title %}Demo 01{% endblock %}
+
+
+{% set nav = [
+    {
+        name:"Create Identrequest",
+        url: urlFor("request")
+    },
+    {
+        name:"Show Idenresult",
+        url: urlFor("result")
+    },
+    {
+        name:"Auth settings",
+        url: urlFor("setting")
+    }
+]
+%}

@@ -1,5 +1,10 @@
 {
     "require": {
-	    "secucard/secucard-connect":"~0.1.0"
+	    "secucard/secucard-connect":"~0.1.0",
+        "slim/slim": "~2.0",
+        "slim/views": "0.*",
+        "twig/twig": "1.*",
+        "raveren/kint": "~1.0",
+        "monolog/monolog": "1.*"
     }
 }

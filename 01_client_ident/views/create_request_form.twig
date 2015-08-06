@@ -1,0 +1,93 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">New Identrequest</h3>
+    </div>
+
+    <form class="form-horizontal" method="POST" action="">
+
+        <div class="panel-body">
+
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label for="inputSalutation" class="col-sm-2 control-label">Salutation</label>
+                    <div class="col-sm-10">
+                        <select name="salutation" class="form-control" id="inputSalutation">
+                            <option value="Herr">Herr</option>
+                            <option value="Frau">Frau</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputForename" class="col-sm-2 control-label">Forename</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputForename" placeholder="Forename">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputSurename" class="col-sm-2 control-label">Surename</label>
+                    <div class="col-sm-10">
+                        <input name="surename" type="text" class="form-control" id="inputSurename" placeholder="Surename">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <span class="col-sm-2 control-label">Birth</span>
+                    <div class="col-sm-10">
+                        <div class="form-group row">
+                            <label for="inputDob" class="col-sm-2 control-label">Date</label>
+                            <div class="col-md-4">
+                                <input name="dob" type="date" class="form-control" id="inputDob" placeholder="1975-03-21">
+                            </div>
+                            <label for="inputBirthplace" class="col-sm-2 control-label">Place</label>
+                            <div class="col-md-4">
+                                <input name="birthplace" type="text" class="form-control" id="inputBirthplace" placeholder="Birthplace">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="col-sm-2 control-label">Address</span>
+                    <div class="col-sm-10">
+                        <div class="form-group row">
+                            <label for="inputStreet" class="col-md-2 control-label">Street</label>
+                            <div class="col-md-6">
+                                <input name="street" type="text" class="form-control" id="inputStreet" placeholder="Street">
+                            </div>
+                            <label for="inputStreetNo" class="col-md-2 control-label">Street Number</label>
+                            <div class="col-md-2">
+                                <input name="street_number" type="text" class="form-control" id="inputStreetNo" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <span class="col-sm-2 control-label"></span>
+                    <div class="col-sm-10">
+                        <div class="form-group row">
+                            <label for="inputPostalcode" class="col-md-2 control-label">Postal Code</label>
+                            <div class="col-md-3">
+                                <input name="postal_code" type="text" class="form-control" id="inputPostalcode" placeholder="">
+                            </div>
+                            <label for="inputCity" class="col-md-2 control-label">City</label>
+                            <div class="col-md-5">
+                                <input name="city" type="text" class="form-control" id="inputCity" placeholder="City">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel-footer">
+                <button type="submit" class="btn btn-default">Save</button>
+        </div>
+
+    </form>
+
+</div>

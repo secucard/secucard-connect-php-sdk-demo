@@ -1,0 +1,28 @@
+{% extends "app.twig" %}
+
+{% block title %}Request - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+    <h1>Create Ident Request</h1>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            {% include 'create_request_form.twig' %}
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            {% include 'request_list.twig' %}
+        </div>
+
+    </div>
+
+
+    {{ dump(data) }}
+
+{% endblock %}
