@@ -10,7 +10,7 @@
 	<script src="assets/js/jquery-2.1.4.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/jquery.jsonview.js"></script>
-	<script src="http://cdn.secucard.com/am/connect-browser/0.1.0-pre.3/secucard-connect.min.js"></script>
+	<script src="http://cdn.secucard.com/am/connect-browser/0.1.x/secucard-connect.min.js"></script>
 	<script src="js/demo.js"></script>
 </head>
 <body>
