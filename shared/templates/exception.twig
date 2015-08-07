@@ -1,0 +1,24 @@
+{% extends "app.twig" %}
+
+{% block title %}Error - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+    <div class="panel panel-danger">
+        <div class="panel-heading">Exception: {{ name }}</div>
+        <div class="panel-body">
+            <h3>Message</h3>
+            <pre>{{ exception.getMessage }}</pre>
+            <h3>Code</h3>
+            <pre>{{ exception.getCode }}</pre>
+            <h3>File</h3>
+            <pre>{{ exception.getFile }}</pre>
+            <h3>Line</h3>
+            <pre>{{ exception.getLine }}</pre>
+            <h3>Trace</h3>
+            <pre>{{ exception.getTraceAsString }}</pre>
+
+        </div>
+    </div>
+
+{% endblock %}

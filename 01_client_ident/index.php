@@ -12,7 +12,7 @@ class toolClass {
         try {
             $list = $secucard->services->identresults->getList(array());
         } catch (Exception $e) {
-            return false;
+            return $e;
         }
 
         return true;
@@ -28,8 +28,8 @@ $app->tool = new toolClass();
 $app->map('/', function () use ($app, $secucard) {
 
     // Auth check
-    if (!$app->tool->authCheck($app, $secucard)) {
-        $app->render('error.twig');
+    if (($e = $app->tool->authCheck($app, $secucard)) !== true) {
+        $app->render('exception.twig', array('exception' => $e, 'name' => get_class($e)));
         $app->stop();
     }
 
@@ -92,12 +92,14 @@ $app->map('/', function () use ($app, $secucard) {
 $app->map('/result(/:id)', function ($id = false) use ($app, $secucard) {
 
     // Auth check
-    if (!$app->tool->authCheck($app, $secucard)) {
-        $app->render('error.twig');
+    if (($e = $app->tool->authCheck($app, $secucard)) !== true) {
+        $app->render('exception.twig', array('exception' => $e, 'name' => get_class($e)));
         $app->stop();
     }
 
+    // Render view
     $app->render('result.twig');
+    
 })->via('GET', 'POST')->name('result');
 
 
