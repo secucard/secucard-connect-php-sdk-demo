@@ -1,0 +1,14 @@
+{% extends "app.twig" %}
+
+{% block title %}Error - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+    <div class="panel panel-danger">
+        <div class="panel-heading">secucard connect Exception</div>
+        <div class="panel-body">
+            Wrong client credentials
+        </div>
+    </div>
+
+{% endblock %}

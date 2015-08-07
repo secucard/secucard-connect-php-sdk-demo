@@ -11,8 +11,8 @@ require_once __DIR__ . "/../../vendor/autoload.php";
  */
 
 $config_sdk = array(
-    'client_id'=>'XXXX',
-    'client_secret'=>'XXXXXXX',
+    'client_id'=> 'overwrite with cookie when set',
+    'client_secret' => 'overwrite with cookie when set',
     'debug' => true,
 );
 
@@ -20,22 +20,6 @@ $config_app = array(
     'debug' => true,
     'templates.path' => __DIR__."/../views" #'../../shared/templates'
 );
-
-// OVERWRITE DEFAULTS FROM CONFIG
-include "config.php";
-
-/*
- * Prepare common
- */
-
-$logger = new \Monolog\Logger('sdk');
-$logger->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__.'/../logs/sdk.log', \Monolog\Logger::DEBUG));
-
-/*
- * Prepare secucard connect SDK
- */
-
-$secucard = new secucard\Client($config_sdk, $logger);
 
 /*
  * Prepare demo app
@@ -48,7 +32,6 @@ $app->container->singleton('log', function () {
     $log->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__.'/../logs/app.log', \Monolog\Logger::DEBUG));
     return $log;
 });
-
 
 // Prepare twig-view-renderer
 $app->view(new \Slim\Views\Twig());
@@ -73,3 +56,24 @@ $function = new Twig_SimpleFunction('urlFor', function ($name) use ($app) {
 });
 
 $app->view->getInstance()->addFunction($function);
+
+
+/*
+ * Prepare secucard connect SDK
+ */
+
+$logger = new \Monolog\Logger('sdk');
+$logger->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__.'/../logs/sdk.log', \Monolog\Logger::DEBUG));
+
+// Get credentials from cookie if avail
+$credentials = $app->getCookie('secucard-connect-demo');
+
+if ($credentials) {
+
+    $credentials = json_decode($credentials);
+
+    $config_sdk['client_id'] = $credentials->client_id;
+    $config_sdk['client_secret'] = $credentials->client_secret;
+}
+
+$secucard = new secucard\Client($config_sdk, $logger);
