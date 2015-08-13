@@ -72,8 +72,14 @@ if ($credentials) {
 
     $credentials = json_decode($credentials);
 
-    $config_sdk['client_id'] = $credentials->client_id;
-    $config_sdk['client_secret'] = $credentials->client_secret;
+    if (isset($credentials->client_id) && !empty($credentials->client_id)) {
+        $config_sdk['client_id'] = $credentials->client_id;
+        $config_sdk['client_secret'] = $credentials->client_secret;
+    }
+
+    if (isset($credentials->server_host) && !empty($credentials->server_host)) {
+        $config_sdk['base_url'] = "https://".$credentials->server_host;
+    }
 }
 
 $secucard = new secucard\Client($config_sdk, $logger);

@@ -4,7 +4,7 @@
 
 {% block content %}
 
-    <h1>Auth settings</h1>
+    <h1>Settings</h1>
 
     <div class="row">
 
@@ -12,7 +12,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Client credentials</h3>
+                    <h3 class="panel-title">Auth (Client credentials)</h3>
                 </div>
 
                 <form class="form-horizontal" method="POST" action="">
@@ -33,6 +33,14 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="inputHost" class="col-md-4 control-label">Host</label>
+                            <div class="col-md-8">
+                                <input name="server_host" value="{{ server_host }}" type="text" class="form-control" id="inputHost" placeholder="connect.secucard.com">
+                            </div>
+                        </div>
+
+
                     </div>
 
                     <div class="panel-footer">
@@ -41,6 +49,7 @@
 
                 </form>
 
+            </div>
         </div>
 
     </div>

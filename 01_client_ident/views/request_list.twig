@@ -4,35 +4,31 @@
     </div>
     <div class="panel-body">
 
+
+
         <table class="table table-condensed table-hover">
 
             <thead>
             <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                <th>ID</th>
+                <th>Created</th>
+                <th>Status</th>
+                <th>Persons</th>
             </tr>
             </thead>
+
             <tbody>
+
+            {% for item in list %}
             <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <th scope="row">{{ item.id }}</th>
+                <td>{{ item.status }}</td>
+                <td>{{ item.status }}</td>
+                <td>{{ item.person | length }}</td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
+
+            {% endfor %}
+
             </tbody>
 
         </table>

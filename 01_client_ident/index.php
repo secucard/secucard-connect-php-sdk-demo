@@ -58,6 +58,7 @@ $app->map('/', function () use ($app, $secucard) {
             )
         );
 
+        /*
         $identrequestPerson = $secucard->factory('Services\IdentrequestsPerson');
 
         $identrequestPerson->contact = $contact_data;
@@ -71,19 +72,33 @@ $app->map('/', function () use ($app, $secucard) {
         $identrequest->addRelated('person', $identrequestPerson);
 
         $new = $identrequest->save();
+        */
+
+        $new = "test";
     }
 
     /*
      * Load list
      */
-    #$list = $secucard->services->identresults->getList(array());
-
-    $list = null;
+    $list = $secucard->services->identresults->getList(array());
 
     // Render view
-    $app->render('request.twig', array('new' => $new, 'list' => $list));
+    $app->render('request.twig', array('form' => $app->request->post(), 'new' => $new, 'list' => $list));
 
 })->via('GET', 'POST')->name('request');
+
+
+/*
+ * Show Identrequest details
+ */
+$app->get('/request(/:id)', function ($id = false) use ($app, $secucard, $config_sdk) {
+
+    $data = "details";
+
+    // Render view
+    $app->render('request_details.twig', array('data' => $data));
+
+});
 
 
 /*
@@ -99,7 +114,7 @@ $app->map('/result(/:id)', function ($id = false) use ($app, $secucard) {
 
     // Render view
     $app->render('result.twig');
-    
+
 })->via('GET', 'POST')->name('result');
 
 
@@ -110,6 +125,7 @@ $app->map('/setting', function () use ($app, $secucard, $config_sdk) {
 
     $client_id = $config_sdk['client_id'];
     $client_secret = $config_sdk['client_secret'];
+    $server_host = "";
 
     /*
      * Save?
@@ -118,19 +134,21 @@ $app->map('/setting', function () use ($app, $secucard, $config_sdk) {
 
         $credentials = array(
             'client_id' => $app->request->post('client_id'),
-            'client_secret' => $app->request->post('client_secret')
+            'client_secret' => $app->request->post('client_secret'),
+            'server_host' => $app->request->post('server_host')
         );
 
         // overwrite
         $client_id = $credentials['client_id'];
         $client_secret = $credentials['client_secret'];
+        $server_host = $credentials['server_host'];
 
         // Save to cookie
         $app->setCookie('secucard-connect-demo', json_encode($credentials), '2 days');
     }
 
     // Render view
-    $app->render('setting.twig', array('client_id' => $client_id, 'client_secret' => $client_secret));
+    $app->render('setting.twig', array('client_id' => $client_id, 'client_secret' => $client_secret, 'server_host' => $server_host));
 
 })->via('GET', 'POST')->name('setting');
 

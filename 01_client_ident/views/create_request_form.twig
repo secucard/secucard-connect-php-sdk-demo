@@ -22,13 +22,13 @@
                 <div class="form-group">
                     <label for="inputForename" class="col-sm-2 control-label">Forename</label>
                     <div class="col-sm-10">
-                        <input name="forename" type="text" class="form-control" id="inputForename" placeholder="Forename">
+                        <input name="forename" value="{{ form.forename }}" type="text" class="form-control" id="inputForename" placeholder="Forename">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputSurename" class="col-sm-2 control-label">Surename</label>
                     <div class="col-sm-10">
-                        <input name="surename" type="text" class="form-control" id="inputSurename" placeholder="Surename">
+                        <input name="surename" value="{{ form.surename }}" type="text" class="form-control" id="inputSurename" placeholder="Surename">
                     </div>
                 </div>
 
@@ -41,11 +41,11 @@
                         <div class="form-group row">
                             <label for="inputDob" class="col-sm-2 control-label">Date</label>
                             <div class="col-md-4">
-                                <input name="dob" type="date" class="form-control" id="inputDob" placeholder="1975-03-21">
+                                <input name="dob" value="{{ form.dob }}" type="date" class="form-control" id="inputDob" placeholder="1975-03-21">
                             </div>
                             <label for="inputBirthplace" class="col-sm-2 control-label">Place</label>
                             <div class="col-md-4">
-                                <input name="birthplace" type="text" class="form-control" id="inputBirthplace" placeholder="Birthplace">
+                                <input name="birthplace" value="{{ form.birthplace }}" type="text" class="form-control" id="inputBirthplace" placeholder="Birthplace">
                             </div>
                         </div>
                     </div>
@@ -57,11 +57,11 @@
                         <div class="form-group row">
                             <label for="inputStreet" class="col-md-2 control-label">Street</label>
                             <div class="col-md-6">
-                                <input name="street" type="text" class="form-control" id="inputStreet" placeholder="Street">
+                                <input name="street" value="{{ form.street }}" type="text" class="form-control" id="inputStreet" placeholder="Street">
                             </div>
                             <label for="inputStreetNo" class="col-md-2 control-label">Street Number</label>
                             <div class="col-md-2">
-                                <input name="street_number" type="text" class="form-control" id="inputStreetNo" placeholder="">
+                                <input name="street_number" value="{{ form.street_number }}" type="text" class="form-control" id="inputStreetNo" placeholder="">
                             </div>
                         </div>
                     </div>
@@ -70,11 +70,11 @@
                         <div class="form-group row">
                             <label for="inputPostalcode" class="col-md-2 control-label">Postal Code</label>
                             <div class="col-md-3">
-                                <input name="postal_code" type="text" class="form-control" id="inputPostalcode" placeholder="">
+                                <input name="postal_code" value="{{ form.postal_code }}" type="text" class="form-control" id="inputPostalcode" placeholder="">
                             </div>
                             <label for="inputCity" class="col-md-2 control-label">City</label>
                             <div class="col-md-5">
-                                <input name="city" type="text" class="form-control" id="inputCity" placeholder="City">
+                                <input name="city" value="{{ form.city }}" type="text" class="form-control" id="inputCity" placeholder="City">
                             </div>
                         </div>
                     </div>
