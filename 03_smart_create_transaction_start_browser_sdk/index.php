@@ -1,230 +1,135 @@
 <?php
 
-include "lib/init.php";
-include "header.php";
-
-// presets
-if (CLIENT_ID && !$_POST['client']) {
-    $client_id = CLIENT_ID;
-} else {
-    $client_id = $_POST['client'];
-}
-
-if (CLIENT_SECRET && !$_POST['secret']) {
-    $client_secret = CLIENT_SECRET;
-} else {
-    $client_secret = $_POST['secret'];
-}
-
-if (VENDOR && !$_POST['vendor']) {
-    $vendor = VENDOR;
-} else {
-    $vendor = $_POST['vendor'];
-}
-
-if (DEVICE_UID && !$_POST['uid']) {
-    $uid = DEVICE_UID;
-} else {
-    $uid = $_POST['uid'];
-}
-
-$refresh_token = $_POST['refresh_token'];
+require_once __DIR__ . "/lib/init.php";
 
 
-$config = array(
-    'client_id' => $client_id,
-    'client_secret' => $client_secret,
-    'auth' => array('type' => 'none')
-);
+/*
+ * Device authorization page
+ */
+$app->map('/', function () use ($app, $secucard, $config_sdk) {
 
+    // Get data from cookies
+    $auth_data = $app->getCookie('secucard-connect-demo-3-auth');
+    $auth_data = (array)json_decode($auth_data);
 
-// Dummy Log File
-$fp = fopen("/tmp/secucard_customer_test.log", "a");
-$logger = new secucard\client\log\Logger($fp, true);
+    $polling_data = $app->getCookie('secucard-connect-demo-3-polling');
+    $polling_data = (array)json_decode($polling_data);
 
-// Create client without auhtorization
-$secucard = new secucard\Client($config, $logger, new secucard\client\storage\FileStorage('/tmp/secucard_client_conf.json'));
+    /*
+     * Save authorization
+     */
+    if ($app->request->isPost()) {
 
-?>
+        $credentials = array(
+            'client_id' => $app->request->post('client_id'),
+            'client_secret' => $app->request->post('client_secret'),
+            'server_host' => $app->request->post('server_host'),
+            'refresh_token' => $app->request->post('refresh_token'),
+        );
 
-<h2>Device Authorisation</h2>
+        $auth_data = [
+            'vendor' => $app->request->post('vendor'),
+            'uid' => $app->request->post('uid'),
+        ];
 
-<form action="" method="POST">
-
-    <div class="row" id="deviceVerification">
-
-
-        <div class="col-md-6">
-
-                <div class="panel panel-default">
-
-                    <div class="panel-heading">
-                        <span>Device verification</span>
-                    </div>
-
-                    <div class="panel-body">
-
-                        <div class="form-group">
-                            <label for="clientInput">Client-ID</label>
-                            <input type="text" id=clientInput" name="client" value="<?php echo $client_id ?>" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="secretInput">Client-Secret</label>
-                            <input type="text" id=secretInput" name="secret" value="<?php echo $client_secret; ?>" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="amountInput">Vendor</label>
-                            <input type="text" id=vendortInput" name="vendor" value="<?php echo $vendor; ?>" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="uidInput">UID (name/value)</label>
-                            <input type="text" id="uidfInput" name="uid" value="<?php echo $uid; ?>" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="refreshInput">Refresh token (optional to skip auth)</label>
-                            <input type="text" id="refreshInput" name="refresh_token" value="<?php echo $refresh_token; ?>" class="form-control">
-                        </div>
-
-                    </div>
-
-                    <div class="panel-footer">
-                        <button type="submit" class="action-start btn btn-success" name="startBtn">Start Auth</button>
-
-                        <?php
-                        if ($refresh_token):
-                            $transaction_link = "transaction_create.php?client_id=$client_id&client_secret=$client_secret&refresh_token=$refresh_token";
-                        ?>
-                            <a class="btn btn-warning" role="button" href="<?php echo $transaction_link; ?>">Continue without auth</a>
-                        <?php endif; ?>
-
-                        </div>
-                </div>
-
-        </div>
-
-
-        <div class="col-md-6">
-
-        <?php
-
-        // First step
-        if (!empty($_POST) && (isset($_POST['startBtn']) || isset($_POST['pollBtn']))):
-
-
-            if (isset($_POST['startBtn'])) {
-                $device_verification = $secucard->obtainDeviceVerification("vendor/" . $vendor, $uid);
-                $error = $device_verification['error_description'];
-                $device_code = $device_verification['device_code'];
-                $user_code = $device_verification['user_code'];
-                $verification_url = $device_verification['verification_url'];
-                $interval = $device_verification['interval'];
+        $poll_error = '';
+        if (isset($_POST['startBtn'])) {
+            if (empty($auth_data['vendor']) || empty($auth_data['uid'])) {
+                $polling_data['request_error'] = 'Error: empty vendor or uid';
             } else {
-                $device_code = $_POST['device_code'];
-                $user_code = $_POST['user_code'];
-                $verification_url = $_POST['verification_url'];
-                $interval = $_POST['interval'];
-                $error = false;
+                $polling_data = $secucard->obtainDeviceVerification("vendor/" . $auth_data['vendor'], $auth_data['uid']);
+                $poll_error = $polling_data['error_description'];
             }
+        } else {
+            $polling_data = [
+                'user_code' => $app->request->post('user_code'),
+                'device_code' => $app->request->post('device_code'),
+                'interval' => $app->request->post('interval'),
+                'verification_url' => $app->request->post('verification_url'),
+            ];
+        }
+        if (isset($_POST['pollBtn'])) {
 
-            if ($error):
-        ?>
-
-        <div class="alert alert-danger" role="alert"><?php echo $error; ?></div>
-
-        <?php
-
-            else:
-
-        ?>
-
-
-            <div class="panel panel-default">
-
-                <div class="panel-heading">
-                    <span>Device Polling</span>
-                </div>
-
-                <div class="panel-body">
-
-                    <h2>PIN: <?php echo $user_code; ?></h2>
-                    <p>Device-Code: <?php echo $device_code; ?></p>
-                    <p>Interval: <?php echo $interval; ?></p>
-                    <p>Verification Url: <a href="<?php echo $verification_url; ?>"><?php echo $verification_url; ?></a></p>
-
-                    <input type="hidden" name="device_code" value="<?php echo $device_code; ?>">
-                    <input type="hidden" name="user_code" value="<?php echo $user_code; ?>">
-                    <input type="hidden" name="verification_url" value="<?php echo $verification_url; ?>">
-                    <input type="hidden" name="interval" value="<?php echo $interval; ?>">
-
-
-                </div>
-
-                <div class="panel-footer">
-                    <button type="submit" class="action-start btn btn-success" name="pollBtn">Poll Auth</button>
-                </div>
-            </div>
-
-
-        <?php
-
-            endif;
-
-        endif;
-
-
-        // Second step
-        if (!empty($_POST) && isset($_POST['pollBtn'])):
-
-            $token = $secucard->pollDeviceAccessToken($device_code);
+            $token = $secucard->pollDeviceAccessToken($polling_data['device_code']);
 
             if (!empty($token['refresh_token'])) {
-                $error = false;
-                $transaction_link = "transaction_create.php?client_id=$client_id&client_secret=$client_secret&refresh_token={$token['refresh_token']}&access_token={$token['access_token']}";
+                $polling_data['successful'] = $token['refresh_token'];
+                $credentials['refresh_token'] = $token['refresh_token'];
+                $polling_data['token'] = $token;
             } elseif ($token['error'] !== 'authorization_pending') {
-                $error = 'Getting refresh token failed, error: ' . $token['error_description'];
+                $poll_error = 'Getting refresh token failed, error: ' . $token['error_description'];
             } else {
-                $error = "Pending, please retry Polling";
+                $poll_error = "Pending, please retry Polling";
             }
+        }
+
+        $polling_data['error'] = $poll_error;
+
+        // save cookies to session
+        $app->setCookie('secucard-connect-demo', json_encode($credentials), '2 days');
+        $app->setCookie('secucard-connect-demo-3-auth', json_encode($auth_data), '2 days');
+        $app->setCookie('secucard-connect-demo-3-polling', json_encode($polling_data), '2 days');
+
+        // display polling when user clicks the startBtn or pollBtn
+        $polling_data['display_polling'] = empty($polling_data['request_error']) && (isset($_POST['startBtn']) || isset($_POST['pollBtn']));
+    }
+
+    // Render view
+    $app->render('authorisation.twig', array('config_sdk' => $config_sdk, 'auth_data' => $auth_data, 'polling' => $polling_data));
+
+// the name() call gives the name for current route and you can use it un urlFor() function
+})->via('GET', 'POST')->name('authorisation');
 
 
-            if ($error):
+/*
+ * Create and start Transaction
+ */
+$app->map('/transaction', function () use ($app, $secucard) {
 
-        ?>
+    $amount = $_GET['amount'];
+    $merchant_ref = $_GET['merchant_ref'];
+    $trans_ref = $_GET['trans_ref'];
 
-            <div class="alert alert-warning" role="alert"><?php echo $error; ?></div>
+    $transaction = null;
+    $error = '';
 
-            <?php else: ?>
+    if ($amount) {
+        // creation:
+        $transaction_data = array(
+            'merchantRef' => $merchant_ref,
+            'transactionRef' => $trans_ref,
+            'basket_info' => [
+                'sum' => (int)$amount,
+                'currency' => 'EUR'
+            ],
+        );
 
-                <div class="panel panel-success">
+        $transaction = $secucard->factory('Smart\Transactions');
+        $transaction->initValues($transaction_data);
 
-                    <div class="panel-heading">
-                        <span>Device Polling Successfull!</span>
-                    </div>
+        $success = false;
+        try {
+            $success = $transaction->save();
+        } catch (\GuzzleHttp\Exception\TransferException $e) {
+            $error = '<b>Error message: </b> ' . $e->getMessage() . '<br/>';
+            if ($e->hasResponse()) {
+                if ($e->getResponse()->getBody()) {
+                    $error .= '<b>Body: </b>' . print_r($e->getResponse()->getBody()->__toString(), true) . '<br/>';
+                }
+            }
+        } catch (Exception $e) {
+            $error = 'Error : ' . $e->getMessage();
+        }
+    }
 
-                    <div class="panel-body">
-                        <?php
-                        Kint::dump($token);
-                        ?>
-                    </div>
+    // Render view
+    $app->render('transaction.twig', ['transaction' => $transaction, 'token' => $secucard->storage->get('access_token'),
+        'error' => $error, 'amount' => $amount, 'merchant_ref' => $merchant_ref, 'trans_ref' => $trans_ref]);
 
-                    <div class="panel-footer">
-                        <a href="<?php echo $transaction_link; ?>" class="btn btn-success" role="button">Continue with these credentials</a>
-                    </div>
-                </div>
-
-            <?php endif; ?>
-
-        <?php endif; ?>
-
-        </div >
-    </div>
-
-
-</form>
+})->via('GET')->name('transaction');
 
 
-<?php include "footer.php"; ?>
+/*
+ * Run app
+ */
+$app->run();

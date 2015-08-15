@@ -1,8 +1,8 @@
 var SecucardConnect = secucardConnect.SecucardConnect;
 var SecucardServices = secucardConnect.Services;
 
-var client = SecucardConnect.create();
-var smartTransactions = client.getService(SecucardServices.Smart.Transactions);
+var client = null;
+var smartTransactions = null;
 
 var demo = {
 	
@@ -11,32 +11,39 @@ var demo = {
 		console.log('Demo started');
 		
 		this.$transactionTypeSelect = $('#transactionType');
-		
+
 		this.$transactionCreateEl = $('#transactionCreate');
 		console.log(this.$transactionCreateEl);
 		
 		this.startBtn = this.$transactionCreateEl.find('.action-start');
+
+		console.log(this.startBtn);
 		this.startBtn.click((function () {
 			console.log('Start transaction!', this.startBtn, this.startBtn.attr('data-transaction'), this.$transactionTypeSelect.val());
 			this.showTransactionDisplay();
 			this.startTransaction(this.startBtn.data('transaction'), this.$transactionTypeSelect.val());
 			this.startBtn.addClass('active');
 		}).bind(this));
-		
+
 		this.$transactionResult = $('#transaction-result');
-		
+
 		this.$transactionDisplayEvents = this.$transactionResult.find('.display-events');
 		this.$transactionDisplayResult = this.$transactionResult.find('.display-result');
-		
+
+		client = SecucardConnect.create(// TODO add special configuration to client
+		);
+		console.log('Client created');
+		smartTransactions = client.getService(SecucardServices.Smart.Transactions);
+
 		smartTransactions.on('display', (function (data) {
 			
 			console.log('Display event', data);
 			this.$transactionDisplayEvents.JSONView(data, { collapsed: true });
 			
 		}).bind(this));
-		
+
 		if(token) {
-			this.setTokenAndOpen(token.access_token);
+			this.setTokenAndOpen(token);
 		}
 		
 	},
