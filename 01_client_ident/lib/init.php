@@ -78,7 +78,11 @@ if ($credentials) {
     }
 
     if (isset($credentials->server_host) && !empty($credentials->server_host)) {
-        $config_sdk['base_url'] = "https://".$credentials->server_host;
+        if (strpos($credentials->server_host, 'https://') !== false) {
+            $config_sdk['base_url'] = $credentials->server_host;
+        } else {
+            $config_sdk['base_url'] = "https://" . $credentials->server_host;
+        }
     }
 }
 
