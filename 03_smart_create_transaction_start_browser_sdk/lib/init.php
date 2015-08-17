@@ -43,7 +43,10 @@ if (!empty($client_id)) {
 
 // get correct base_url
 $server_host = $app->request->post('server_host');
-$base_url = empty($server_host) ? $credentials['server_host'] : $server_host;
+if (empty($server_host)) {
+    $server_host = $credentials['server_host'];
+}
+$base_url = $server_host;
 if (!empty($base_url)) {
     if (strpos($base_url, 'https://') !== false) {
         $config_sdk['base_url'] = $base_url;
