@@ -1,0 +1,29 @@
+{% extends "app.twig" %}
+
+{% block title %}Request - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+    <h1>Create Container</h1>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            {% include 'create_container_form.twig' %}
+        </div>
+
+    </div>
+
+    {% if new %}
+        {% include 'create_object_result.twig' %}
+    {% endif %}
+
+    <div class="row">
+
+        <div class="col-md-12">
+            {% include 'containers_list.twig' %}
+        </div>
+
+    </div>
+
+{% endblock %}
