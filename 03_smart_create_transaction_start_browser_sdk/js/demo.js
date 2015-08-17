@@ -6,7 +6,7 @@ var smartTransactions = null;
 
 var demo = {
 	
-	init: function(token) {
+	init: function(token, host) {
 		
 		console.log('Demo started');
 		
@@ -30,8 +30,15 @@ var demo = {
 		this.$transactionDisplayEvents = this.$transactionResult.find('.display-events');
 		this.$transactionDisplayResult = this.$transactionResult.find('.display-result');
 
-		client = SecucardConnect.create(// TODO add special configuration to client
-		);
+		var config = {};
+
+		if (host) {
+			config.host = host;
+		}
+
+		// Init client instance
+		client = SecucardConnect.create(config);
+
 		console.log('Client created');
 		smartTransactions = client.getService(SecucardServices.Smart.Transactions);
 

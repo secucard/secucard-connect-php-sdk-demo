@@ -119,7 +119,7 @@
         </div>
     {% if token %}
         <script>
-            demo.init("{{ token.access_token }}");
+            demo.init("{{ token.access_token }}", "{{ host }}");
         </script>
     {% endif %}
     </div>

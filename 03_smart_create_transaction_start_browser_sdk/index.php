@@ -84,7 +84,7 @@ $app->map('/', function () use ($app, $secucard, $config_sdk) {
 /*
  * Create and start Transaction
  */
-$app->map('/transaction', function () use ($app, $secucard) {
+$app->map('/transaction', function () use ($app, $secucard, $credentials) {
 
     $amount = $_GET['amount'];
     $merchant_ref = $_GET['merchant_ref'];
@@ -122,9 +122,12 @@ $app->map('/transaction', function () use ($app, $secucard) {
         }
     }
 
+    // set host to javascript sdk
+    $host = (($credentials['server_host'] != "") ? $credentials['server_host'] : 'null');
+
     // Render view
     $app->render('transaction.twig', ['transaction' => $transaction, 'token' => $secucard->storage->get('access_token'),
-        'error' => $error, 'amount' => $amount, 'merchant_ref' => $merchant_ref, 'trans_ref' => $trans_ref]);
+        'error' => $error, 'amount' => $amount, 'merchant_ref' => $merchant_ref, 'trans_ref' => $trans_ref, 'host' => $host]);
 
 })->via('GET')->name('transaction');
 
