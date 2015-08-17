@@ -20,7 +20,8 @@ $app->map('/', function () use ($app, $secucard, $config_sdk) {
      */
     if ($app->request->isPost()) {
 
-        $credentials = $app->getCookie('secucard-connect-demo', true);
+        $credentials = $app->getCookie('secucard-connect-demo');
+        $credentials = json_decode($credentials, true);
 
         $auth_data = [
             'vendor' => $app->request->post('vendor'),
@@ -160,7 +161,7 @@ $app->map('/settings', function () use ($app, $secucard, $config_sdk) {
     }
 
     // Render view
-    $app->render('setting.twig', array('client_id' => $client_id, 'client_secret' => $client_secret, 'server_host' => $server_host, 'refresh_token' => $refresh_token));
+    $app->render('settings.twig', array('client_id' => $client_id, 'client_secret' => $client_secret, 'server_host' => $server_host, 'refresh_token' => $refresh_token));
 
 })->via('GET', 'POST')->name('settings');
 

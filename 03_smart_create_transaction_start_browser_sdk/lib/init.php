@@ -1,8 +1,9 @@
 <?php
 
+// variable used later
 define('TWIG_VIEWS_PATH', __DIR__ . "/../views");
 
-require_once(__DIR__ . "/../../shared/php/init.php");
+include_once __DIR__ . "/../../shared/php/init.php";
 
 /*
  * CONFIG
@@ -25,19 +26,24 @@ $logger->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/../logs/sdk.
 
 // the configuration for secucard client is stored in session or posted directly
 // Get credentials from cookie if avail
-$credentials = $app->getCookie('secucard-connect-demo', true);
+$credentials = $app->getCookie('secucard-connect-demo');
+$credentials = json_decode($credentials, true);
 if (!empty($credentials['client_id'])) {
     $config_sdk['client_id'] = $credentials['client_id'];
     $config_sdk['client_secret'] = $credentials['client_secret'];
 }
-
-if (!empty($app->request->post('client_id'))) {
-    $config_sdk['client_id'] = $app->request->post('client_id');
+/*
+ *
+ */
+$client_id = $app->request->post('client_id');
+if (!empty($client_id)) {
+    $config_sdk['client_id'] = $client_id;
     $config_sdk['client_secret'] = $app->request->post('client_secret');
 }
 
 // get correct base_url
-$base_url = empty($app->request->post('server_host')) ? $credentials['server_host'] : $app->request->post('server_host');
+$server_host = $app->request->post('server_host');
+$base_url = empty($server_host) ? $credentials['server_host'] : $server_host;
 if (!empty($base_url)) {
     if (strpos($base_url, 'https://') !== false) {
         $config_sdk['base_url'] = $base_url;
@@ -46,7 +52,10 @@ if (!empty($base_url)) {
     }
 }
 
-$refresh_token = empty($app->request->post('refresh_token')) ? $credentials['refresh_token'] : $app->request->post('refresh_token');
+$refresh_token = $app->request->post('refresh_token');
+if (empty($refresh_token)) {
+    $credentials['refresh_token'];
+}
 $config_sdk['refresh_token'] = $refresh_token;
 
 
