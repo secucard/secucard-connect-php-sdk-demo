@@ -20,12 +20,7 @@ $app->map('/', function () use ($app, $secucard, $config_sdk) {
      */
     if ($app->request->isPost()) {
 
-        $credentials = array(
-            'client_id' => $app->request->post('client_id'),
-            'client_secret' => $app->request->post('client_secret'),
-            'server_host' => $app->request->post('server_host'),
-            'refresh_token' => $app->request->post('refresh_token'),
-        );
+        $credentials = $app->getCookie('secucard-connect-demo', true);
 
         $auth_data = [
             'vendor' => $app->request->post('vendor'),
@@ -130,6 +125,44 @@ $app->map('/transaction', function () use ($app, $secucard, $credentials) {
         'error' => $error, 'amount' => $amount, 'merchant_ref' => $merchant_ref, 'trans_ref' => $trans_ref, 'host' => $host]);
 
 })->via('GET')->name('transaction');
+
+
+/*
+ * Auth settings
+ */
+$app->map('/settings', function () use ($app, $secucard, $config_sdk) {
+
+    $client_id = $config_sdk['client_id'];
+    $client_secret = $config_sdk['client_secret'];
+    $server_host = $config_sdk['base_url'];
+    $refresh_token = $config_sdk['refresh_token'];
+
+    /*
+     * Save?
+     */
+    if ($app->request->isPost()) {
+
+        $credentials = array(
+            'client_id' => $app->request->post('client_id'),
+            'client_secret' => $app->request->post('client_secret'),
+            'server_host' => $app->request->post('server_host'),
+            'refresh_token' => $app->request->post('refresh_token'),
+        );
+
+        // overwrite
+        $client_id = $credentials['client_id'];
+        $client_secret = $credentials['client_secret'];
+        $server_host = $credentials['server_host'];
+        $refresh_token = $credentials['refresh_token'];
+
+        // Save to cookie
+        $app->setCookie('secucard-connect-demo', json_encode($credentials), '2 days');
+    }
+
+    // Render view
+    $app->render('setting.twig', array('client_id' => $client_id, 'client_secret' => $client_secret, 'server_host' => $server_host, 'refresh_token' => $refresh_token));
+
+})->via('GET', 'POST')->name('settings');
 
 
 /*

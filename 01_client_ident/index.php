@@ -121,7 +121,7 @@ $app->map('/result(/:id)', function ($id = false) use ($app, $secucard) {
 /*
  * Auth settings
  */
-$app->map('/setting', function () use ($app, $secucard, $config_sdk) {
+$app->map('/settings', function () use ($app, $secucard, $config_sdk) {
 
     $client_id = $config_sdk['client_id'];
     $client_secret = $config_sdk['client_secret'];
@@ -148,9 +148,9 @@ $app->map('/setting', function () use ($app, $secucard, $config_sdk) {
     }
 
     // Render view
-    $app->render('setting.twig', array('client_id' => $client_id, 'client_secret' => $client_secret, 'server_host' => $server_host));
+    $app->render('settings.twig', array('client_id' => $client_id, 'client_secret' => $client_secret, 'server_host' => $server_host));
 
-})->via('GET', 'POST')->name('setting');
+})->via('GET', 'POST')->name('settings');
 
 
 /*

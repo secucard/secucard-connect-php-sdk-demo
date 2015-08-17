@@ -1,12 +1,8 @@
 <?php
 
-date_default_timezone_set('Europe/Berlin');
-ini_set("display_errors", 1);
+define('TWIG_VIEWS_PATH', __DIR__ . "/../views");
 
-error_reporting(E_ALL && ~E_NOTICE);
-#error_reporting(E_ALL);
-
-require_once __DIR__ . "/../../vendor/autoload.php";
+require_once(__DIR__ . "/../../shared/php/init.php");
 
 /*
  * CONFIG
@@ -20,47 +16,6 @@ $config_sdk = array(
     'auth' => array('type' => 'none'),
 );
 
-$config_app = array(
-    'debug' => true,
-    'templates.path' => __DIR__ . "/../views"
-);
-
-/*
- * Prepare demo app
- */
-$app = new \Slim\Slim($config_app);
-
-$app->container->singleton('log', function () {
-    $log = new \Monolog\Logger('app');
-    $log->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/../logs/app.log', \Monolog\Logger::DEBUG));
-    return $log;
-});
-
-// Prepare twig-view-renderer
-$app->view(new \Slim\Views\Twig());
-$app->view->parserOptions = array(
-    'charset' => 'utf-8',
-    'auto_reload' => true,
-    'strict_variables' => false,
-    'autoescape' => true,
-    'debug' => true,
-);
-
-// add shared template path to loader
-$app->view->getInstance()->getLoader()->addPath(__DIR__ . "/../../shared/templates");
-$app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
-
-// add extensions
-$app->view->getInstance()->addExtension(new Twig_Extension_Debug());
-
-// add methods
-$function = new Twig_SimpleFunction('urlFor', function ($name) use ($app) {
-    return $app->urlFor($name);
-});
-
-$app->view->getInstance()->addFunction($function);
-
-
 /*
  * Prepare secucard connect SDK
  */
@@ -70,20 +25,19 @@ $logger->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/../logs/sdk.
 
 // the configuration for secucard client is stored in session or posted directly
 // Get credentials from cookie if avail
-$credentials = $app->getCookie('secucard-connect-demo');
-$credentials = (array)json_decode($credentials);
+$credentials = $app->getCookie('secucard-connect-demo', true);
 if (!empty($credentials['client_id'])) {
     $config_sdk['client_id'] = $credentials['client_id'];
     $config_sdk['client_secret'] = $credentials['client_secret'];
 }
 
-if (!empty($_POST['client_id'])) {
-    $config_sdk['client_id'] = $_POST['client_id'];
-    $config_sdk['client_secret'] = $_POST['client_secret'];
+if (!empty($app->request->post('client_id'))) {
+    $config_sdk['client_id'] = $app->request->post('client_id');
+    $config_sdk['client_secret'] = $app->request->post('client_secret');
 }
 
 // get correct base_url
-$base_url = empty($_POST['server_host']) ? $credentials['server_host'] : $_POST['server_host'];
+$base_url = empty($app->request->post('server_host')) ? $credentials['server_host'] : $app->request->post('server_host');
 if (!empty($base_url)) {
     if (strpos($base_url, 'https://') !== false) {
         $config_sdk['base_url'] = $base_url;
@@ -92,13 +46,9 @@ if (!empty($base_url)) {
     }
 }
 
-$refresh_token = empty($_POST['refresh_token']) ? $credentials['refresh_token'] : $_POST['refresh_token'];
+$refresh_token = empty($app->request->post('refresh_token')) ? $credentials['refresh_token'] : $app->request->post('refresh_token');
 $config_sdk['refresh_token'] = $refresh_token;
 
-
-// Dummy Log File
-$fp = fopen("/tmp/secucard_demo.log", "a");
-$logger = new \secucard\client\log\Logger($fp, true);
 
 // Dummy storage for client
 $storage = new \secucard\client\storage\DummyStorage();
