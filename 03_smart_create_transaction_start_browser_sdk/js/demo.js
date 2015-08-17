@@ -33,7 +33,7 @@ var demo = {
 		var config = {};
 
 		if (host) {
-			config.host = host;
+			config.stompHost = host;
 		}
 
 		// Init client instance
