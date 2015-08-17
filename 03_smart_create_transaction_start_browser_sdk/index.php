@@ -135,7 +135,7 @@ $app->map('/settings', function () use ($app, $secucard, $config_sdk) {
 
     $client_id = $config_sdk['client_id'];
     $client_secret = $config_sdk['client_secret'];
-    $server_host = $config_sdk['base_url'];
+    $server_host = $config_sdk['server_host'];
     $refresh_token = $config_sdk['refresh_token'];
 
     /*

@@ -51,11 +51,16 @@ if (!empty($base_url)) {
         $config_sdk['base_url'] = "https://" . $base_url;
     }
 }
+$config_sdk['server_host'] = $server_host;
 
-$refresh_token = $app->request->post('refresh_token');
+$refresh_token = $app->request->get('refresh_token');
 if (empty($refresh_token)) {
-    $credentials['refresh_token'];
+    $refresh_token = $app->request->post('refresh_token');
 }
+if (empty($refresh_token)) {
+    $refresh_token = $credentials['refresh_token'];
+}
+
 $config_sdk['refresh_token'] = $refresh_token;
 
 

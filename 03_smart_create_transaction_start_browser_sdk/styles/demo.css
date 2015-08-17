@@ -2,14 +2,6 @@ body {
     padding-top: 50px;
 }
 
-.navbar-inverse {
-    background-color: #3276b1;
-}
-
-.navbar-inverse .navbar-brand {
-    color: white;
-}
-
 .spinner {
   display: inline-block;
   opacity: 0;
