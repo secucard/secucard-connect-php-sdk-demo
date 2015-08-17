@@ -157,23 +157,11 @@ $app->map('/container', function () use ($app, $secucard) {
 })->via('GET', 'POST')->name('container');
 
 
-/*
- * Show Identrequest details
- *
-$app->get('/request(/:id)', function ($id = false) use ($app, $secucard, $config_sdk) {
-
-    $data = "details";
-
-    // Render view
-    $app->render('request_details.twig', array('data' => $data));
-
-});
-
 
 /*
- * Show Identresult
- *
-$app->map('/result(/:id)', function ($id = false) use ($app, $secucard) {
+ * Create Secupaydebit
+ */
+$app->map('/secupaydebit', function () use ($app, $secucard) {
 
     // Auth check
     if (($e = $app->tool->authCheck($app, $secucard)) !== true) {
@@ -181,10 +169,153 @@ $app->map('/result(/:id)', function ($id = false) use ($app, $secucard) {
         $app->stop();
     }
 
-    // Render view
-    $app->render('result.twig');
+    $new = null;
 
-})->via('GET', 'POST')->name('result');
+    /*
+     * Save
+     */
+    if ($app->request->isPost() && $app->request->post('amount')) {
+
+        $debit_data = [
+            'container' => [
+                'object' => 'payment.containers',
+                'id' => $app->request->post('container_id'),
+            ],
+            'customer' => [
+                'object' => 'payment.customers',
+                'id' => $app->request->post('customer_id'),
+            ],
+            'amount' => $app->request->post('amount'),
+            'currency' => 'EUR',
+            'purpose' => $app->request->post('purpose'),
+            'order_id' => $app->request->post('order_id'),
+        ];
+
+        $contract_id = $app->request->post('contract_id');
+        if (!empty($contract_id)) {
+            $debit_data['contract'] = ['object' => 'payment.contracts', 'id' => $contract_id];
+        }
+
+        $new_debit = $secucard->factory('Payment\Secupaydebits');
+
+        $new_debit->initValues($debit_data);
+
+        try {
+            $success = $new_debit->save();
+        } catch (\Exception $e) {
+            $app->render('exception.twig', array('exception' => $e, 'name' => get_class($e)));
+            $app->stop();
+        }
+        if (!$success) {
+            echo 'Failed to create secupaydebit payment';
+        }
+    }
+
+    // Render view
+    $app->render('secupaydebit.twig', array('form' => $app->request->post(), 'new' => $new_debit));
+
+})->via('GET', 'POST')->name('secupaydebit');
+
+
+/*
+ * Show Secupaydebit details
+ */
+$app->get('/secupaydebit/:id', function ($id) use ($app, $secucard) {
+
+    $e = null;
+    if (empty($id)) {
+        $e = new \Exception('empty parameter id');
+    }
+
+    // Auth check
+    if ($e || ($e = $app->tool->authCheck($app, $secucard)) !== true) {
+        $app->render('exception.twig', array('exception' => $e, 'name' => get_class($e)));
+        $app->stop();
+    }
+
+    $data = $secucard->payment->Secupaydebits->get($id);
+
+    // Render view
+    $app->render('secupaydebit_detail.twig', array('data' => $data));
+});
+
+
+/*
+ * Create Secupayprepay
+ */
+$app->map('/secupayprepay', function () use ($app, $secucard) {
+
+    // Auth check
+    if (($e = $app->tool->authCheck($app, $secucard)) !== true) {
+        $app->render('exception.twig', array('exception' => $e, 'name' => get_class($e)));
+        $app->stop();
+    }
+
+    $new = null;
+
+    /*
+     * Save
+     */
+    if ($app->request->isPost() && $app->request->post('amount')) {
+
+        $prepay_data = [
+            'customer' => [
+                'object' => 'payment.customers',
+                'id' => $app->request->post('customer_id'),
+            ],
+            'amount' => $app->request->post('amount'),
+            'currency' => 'EUR',
+            'purpose' => $app->request->post('purpose'),
+            'order_id' => $app->request->post('order_id'),
+        ];
+
+        $contract_id = $app->request->post('contract_id');
+        if (!empty($contract_id)) {
+            $prepay_data['contract'] = ['object' => 'payment.contracts', 'id' => $contract_id];
+        }
+
+        $new_prepay = $secucard->factory('Payment\Secupayprepays');
+
+        $new_prepay->initValues($prepay_data);
+
+        try {
+            $success = $new_prepay->save();
+        } catch (\Exception $e) {
+            $app->render('exception.twig', array('exception' => $e, 'name' => get_class($e)));
+            $app->stop();
+        }
+        if (!$success) {
+            echo 'Failed to create secupayprepay payment';
+        }
+    }
+
+    // Render view
+    $app->render('secupayprepay.twig', array('form' => $app->request->post(), 'new' => $new_prepay));
+
+})->via('GET', 'POST')->name('secupayprepay');
+
+
+/*
+ * Show Secupayprepay details
+ */
+$app->get('/secupayprepay/:id', function ($id) use ($app, $secucard) {
+
+    $e = null;
+    if (empty($id)) {
+        $e = new \Exception('empty parameter id');
+    }
+
+    // Auth check
+    if ($e || ($e = $app->tool->authCheck($app, $secucard)) !== true) {
+        $app->render('exception.twig', array('exception' => $e, 'name' => get_class($e)));
+        $app->stop();
+    }
+
+    $data = $secucard->payment->Secupayprepays->get($id);
+
+    // Render view
+    $app->render('secupayprepay_detail.twig', array('data' => $data));
+});
 
 
 /*
