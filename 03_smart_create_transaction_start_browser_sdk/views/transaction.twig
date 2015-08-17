@@ -100,25 +100,36 @@
         </div>
     </div>
 
-    <div class="row">
-        <div id="transaction-result" class="panel panel-default" style="display: none;">
-
-            <div class="panel-heading">
-                <span>Events:</span>
+    <div id="transaction-result" class="row" style="display: none;">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+    
+                <div class="panel-heading">
+                    <span>Events:</span>
+                </div>
+    
+                <div class="panel-body display-events">
+    
+                </div>
+    
+                <div class="panel-heading">
+                    <span>Result:</span>
+                </div>
+    
+                <div class="panel-body display-result">
+    
+                </div>
+    
             </div>
-
-            <div class="panel-body display-events">
-
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Receipt:
+                </div>
+                <div class="panel-body display-receipt">
+                </div>
             </div>
-
-            <div class="panel-heading">
-                <span>Result:</span>
-            </div>
-
-            <div class="panel-body display-result">
-
-            </div>
-
         </div>
     {% if token %}
         <script>
