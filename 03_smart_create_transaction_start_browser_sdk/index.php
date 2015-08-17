@@ -82,6 +82,14 @@ $app->map('/', function () use ($app, $secucard, $config_sdk) {
  */
 $app->map('/transaction', function () use ($app, $secucard, $credentials) {
 
+    // check if refresh_token is defined, if not then error:
+    $refresh_token = $credentials['refresh_token'];
+    if (empty($refresh_token)) {
+        $error = new \Exception('Empty refresh_token');
+        $app->render('exception.twig', array('exception' => $error, 'name' => 'Missing refresh_token token'));
+        $app->stop();
+    }
+
     $amount = $_GET['amount'];
     $merchant_ref = $_GET['merchant_ref'];
     $trans_ref = $_GET['trans_ref'];
