@@ -32,7 +32,7 @@ var demo = {
 
 		var config = {};
 
-		if (host) {
+		if (host && host != "null") {
 			config.stompHost = host;
 		}
 
