@@ -1,6 +1,8 @@
 <?php
 
+// variable used later
 define('TWIG_VIEWS_PATH', __DIR__ . "/../views");
+define('APP_LOG_PATH', __DIR__ . '/../logs/app.log');
 
 require_once(__DIR__ . "/../../shared/php/init.php");
 

@@ -24,7 +24,7 @@ $app = new \Slim\Slim($config_app);
 
 $app->container->singleton('log', function () {
     $log = new \Monolog\Logger('app');
-    $log->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/../logs/app.log', \Monolog\Logger::DEBUG));
+    $log->pushHandler(new \Monolog\Handler\StreamHandler(APP_LOG_PATH, \Monolog\Logger::DEBUG));
     return $log;
 });
 
@@ -39,7 +39,7 @@ $app->view->parserOptions = array(
 );
 
 // add shared template path to loader
-$app->view->getInstance()->getLoader()->addPath(__DIR__ . "/../../shared/templates");
+$app->view->getInstance()->getLoader()->addPath(__DIR__ . "/../templates");
 $app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
 
 // add extensions
