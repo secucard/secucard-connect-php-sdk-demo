@@ -30,20 +30,10 @@
                             <input type="text" id="uidInput" name="uid" value="{{ auth_data['uid'] }}" class="form-control" placeholder="name/value">
                         </div>
 
-                        <div class="form-group">
-                            <label for="refreshInput">Refresh token (optional to skip auth)</label>
-                            <input type="text" id="refreshInput" name="refresh_token" value="{{ config_sdk['refresh_token'] }}" class="form-control">
-                        </div>
-
                     </div>
 
                     <div class="panel-footer">
                         <button type="submit" class="action-start btn btn-success" name="startBtn">Start Auth</button>
-
-                        {% if config_sdk['refresh_token'] %}
-                            <a class="btn btn-warning" role="button" href="{{ urlFor("transaction") }}">Continue without auth</a>
-                        {% endif %}
-
                     </div>
 
                 </div>
