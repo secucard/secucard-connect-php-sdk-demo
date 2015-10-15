@@ -11,10 +11,12 @@ $raw_post_data = '{
     "id":"EVT_123456789",
     "target":"payment.secupaydebits",
     "type":"changed",
-    "data":{
-        "object":"payment.secupaydebits",
-        "id":"xxxxxxxxx"
-    }
+    "data":[
+        {
+            "object":"payment.secupaydebits",
+            "id":"xxxxxxxxx"
+        }
+    ]
 }';
 //$raw_post_data = file_get_contents("php://input");
 

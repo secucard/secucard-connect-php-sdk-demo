@@ -13,17 +13,18 @@ function gotObjectPush(secucard\client\base\MainModel $obj) {
 $secucard->registerCallbackObject(gotObjectPush);
 
 
-
 // simulate sample push
 $raw_post_data = '{
     "object":"event.pushes",
     "id":"EVT_123456789",
     "target":"payment.secupaydebits",
     "type":"changed",
-    "data":{
-        "object":"payment.secupaydebits",
-        "id":"xxxxxxxxx"
-    }
+    "data":[
+        {
+            "object":"payment.secupaydebits",
+            "id":"xxxxxxxxx"
+        }
+    ]
 }';
 
 //$raw_post_data = file_get_contents("php://input");

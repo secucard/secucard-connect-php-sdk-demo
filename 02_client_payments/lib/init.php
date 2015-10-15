@@ -15,6 +15,8 @@ $config_sdk = array(
     'debug' => true,
 );
 
+$logger = new \Monolog\Logger('sdk');
+$logger->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/../logs/sdk.log', \Monolog\Logger::DEBUG));
 
 /*
  * Prepare secucard connect SDK
