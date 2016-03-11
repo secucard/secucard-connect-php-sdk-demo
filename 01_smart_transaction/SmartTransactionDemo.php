@@ -20,7 +20,7 @@ class SmartTransactionDemo
     public function simpleUsage()
     {
         $config = array(
-            'base_url' => 'https://connect-dev10.secupay-ag.de',
+            'base_url' => 'https://connect.secucard.com',
             'debug' => true
         );
 
