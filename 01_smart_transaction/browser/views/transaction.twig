@@ -133,7 +133,10 @@
         </div>
     {% if token %}
         <script>
-            demo.init("{{ token }}", "{{ host }}");
+            {% autoescape %}
+            var token = {{ token|raw }}
+            {% endautoescape %}
+            demo.init(token, "{{ host }}");
         </script>
     {% endif %}
     </div>
