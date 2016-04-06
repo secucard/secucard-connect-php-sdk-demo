@@ -1,0 +1,143 @@
+{% extends "app.twig" %}
+
+{% block title %}Create and start Smart transaction - {{ parent() }}{% endblock %}
+
+{% block head_content %}
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/jquery.jsonview.css">
+    <link rel="stylesheet" href="../styles/demo.css">
+
+    <script src="https://cdn.secucard.com/am/connect-browser/0.1.x/secucard-connect.min.js"></script>
+    <script src="../js/demo.js"></script>
+    <script src="../assets/js/jquery-2.1.4.min.js"></script>
+    <script src="../assets/js/jquery.jsonview.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<h2>Create and start Smart Transaction</h2>
+
+<form action="" method="GET">
+
+    <div class="row" id="transactionCreate">
+        <div class="col-md-6">
+            <form action="" method="GET">
+
+                <div class="panel panel-default">
+
+                    <div class="panel-heading">
+                        <span>New transaction</span>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <label for="amountInput">Sum</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">&euro;</div>
+                                <input type="number" id="amountInput" name="amount" value="{{ amount }}" class="form-control">
+                                <div class="input-group-addon">in cents</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="merchantrefInput">Customer-Reference</label>
+                            <input type="text" id="merchantrefInput" name="merchant_ref" value="{{ merchant_ref }}" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="transactionrefInput">Transaction-Reference</label>
+                            <input type="text" id="transactionrefInput" name="trans_ref" value="{{ trans_ref }}" class="form-control">
+                        </div>
+
+                    </div>
+
+                    <div class="panel-footer">
+                        <button type="submit" class="btn btn-success">Create</button>
+                    </div>
+                </div>
+
+            </form>
+        </div >
+
+        <div class="col-md-6">
+
+        {% if error %}
+            <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endif %}
+
+        {% if transaction %}
+            <div class="panel panel-success">
+
+                <div class="panel-heading">
+                    <span>Transaction create Result</span>
+                </div>
+
+                <div class="panel-body">
+                    <h4>ID: {{ transaction.id }}</h4>
+                    {{ dump(transaction) }}
+                </div>
+
+                <div class="panel-footer">
+
+                    <div class="form-group">
+                        <label for="transactionType">Transaction type</label>
+                        <select class="form-control" id="transactionType">
+                            <option value="demo">demo</option>
+                            <option value="cash">cash</option>
+                            <option value="cashless">cashless</option>
+                            <option value="loyalty">loyalty</option>
+                        </select>
+                    </div>
+                    <button type="button" data-transaction="{{ transaction.id }}" class="action-start btn btn-success has-spinner">
+                        <span class="spinner"><i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i></span> Start {{ transaction.id }} via Browser SDK
+                    </button>
+                </div>
+            </div>
+
+        {% endif %}
+
+        </div>
+    </div>
+
+    <div id="transaction-result" class="row" style="display: none;">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+    
+                <div class="panel-heading">
+                    <span>Events:</span>
+                </div>
+    
+                <div class="panel-body display-events">
+    
+                </div>
+    
+                <div class="panel-heading">
+                    <span>Result:</span>
+                </div>
+    
+                <div class="panel-body display-result">
+    
+                </div>
+    
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Receipt:
+                </div>
+                <div class="panel-body display-receipt">
+                </div>
+            </div>
+        </div>
+    {% if token %}
+        <script>
+            demo.init("{{ token }}", "{{ host }}");
+        </script>
+    {% endif %}
+    </div>
+
+</form>
+
+{% endblock %}

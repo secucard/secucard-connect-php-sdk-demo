@@ -1,0 +1,113 @@
+{% extends "app.twig" %}
+
+{% block title %}Device authorization - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+    <h1>Device Authorisation</h1>
+
+    <form action="" method="POST">
+
+        <div class="row" id="deviceVerification">
+
+            <div class="col-md-6">
+
+                <div class="panel panel-default">
+
+                    <div class="panel-heading">
+                        <span>Device verification</span>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <label for="vendorInput">Vendor</label>
+                            <input type="text" id="vendorInput" name="vendor" value="{{ auth_data['vendor'] }}" class="form-control" placeholder="vendor name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="uidInput">UID (name/value)</label>
+                            <input type="text" id="uidInput" name="uid" value="{{ auth_data['uid'] }}" class="form-control" placeholder="name/value">
+                        </div>
+
+                    </div>
+
+                    <div class="panel-footer">
+                        <button type="submit" class="action-start btn btn-success" name="startBtn">Start Auth</button>
+                    </div>
+
+                </div>
+
+                {% if polling['request_error'] %}
+
+                    <div class="alert alert-danger" role="alert">{{ polling['request_error'] }}</div>
+
+                {% endif %}
+            </div>
+
+
+            <div class="col-md-6">
+
+        {% if polling['display_polling'] %}
+
+            {% if polling['successful'] %}
+
+                <div class="panel panel-success">
+
+                    <div class="panel-heading">
+                        <span>Device Polling Successfull</span>
+                    </div>
+
+                    <div class="panel-body">
+                        {{ dump(polling['token']) }}
+                    </div>
+
+                    <div class="panel-footer">
+                        <a href="{{ urlFor("transaction") }}" class="btn btn-success" role="button">Continue with these credentials</a>
+                    </div>
+                </div>
+
+            {% else %}
+
+                <div class="panel panel-default">
+
+                    <div class="panel-heading">
+                        <span>Device Polling</span>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <h2>PIN: {{ polling['user_code'] }}</h2>
+                        <p>Device-Code: {{ polling['device_code'] }}</p>
+                        <p>Interval: {{ polling['interval'] }}</p>
+                        <p>Verification Url: <a href="{{ polling['verification_url'] }}">{{ polling['verification_url'] }}</a></p>
+
+                        {% for key, value in polling %}
+                            <input type="hidden" name="{{ key }}" value="{{ value }}">
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="panel-footer">
+                        <button type="submit" class="action-start btn btn-success" name="pollBtn">Poll Auth</button>
+                    </div>
+                </div>
+
+
+                {% if polling['error'] %}
+
+                    <div class="alert alert-danger" role="alert">{{ polling['error'] }}</div>
+
+                {% endif %}
+
+            {% endif %}
+
+        {% endif %}
+            </div>
+
+        </div>
+
+    </form>
+
+
+{% endblock %}

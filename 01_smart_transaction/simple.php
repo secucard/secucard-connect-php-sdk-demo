@@ -11,13 +11,7 @@ use SecucardConnect\Product\Smart\Model\Transaction;
 use SecucardConnect\SecucardConnect;
 use SecucardConnect\Util\Logger;
 
-date_default_timezone_set('Europe/Berlin');
-
-ini_set("display_errors", 1);
-
-error_reporting(E_ALL && ~E_NOTICE);
-
-require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . '/../shared/init.php';
 
 $config = array(
     'base_url' => 'https://connect.secucard.com',
@@ -33,7 +27,6 @@ $store = new DummyStorage();
 $cred = new RefreshTokenCredentials('your-client-id', 'your-client-secret', 'your-refresh-token');
 
 $client = new SecucardConnect($config, $logger, $store, $store, $cred);
-
 
 // You may obtain a global list of allowed "idents templates" to cross check if current customers ident
 // is valid at all, this "manual" pre-validation avoids errors when actually submitting transactions later.
@@ -87,26 +80,29 @@ $result = $service->save($trans);
 // demo|auto|cash, demo instructs the server to simulate a different (random) transaction for each invocation of
 // startTransaction, also different formatted receipt lines will be returned.
 $type = "demo";
-
 $trans = $service->start($trans->id, $type);
 if ($trans->status !== Transaction::STATUS_OK) {
     throw new Exception();
 }
 
+// If staus == OK, everything worked..
 echo 'Transaction started!';
 
-// "Print" receipt
+//Now you can directly  process the  receipt:
 $receiptLines = $trans->receipt;
-
 foreach ($receiptLines as $line) {
     echo 'Receipt Line: ' . $line->type . ', ' . $line->value;
 }
 
-// Cancel the transaction.
-$ok = $service->cancel($trans->id);
-
-// Status has now changed.
+// Or alternatively you can skip the result from start()
+// and retrieve the started transaction later and process the receipt then like:
 $trans = $service->get($trans->id);
+$receiptLines = $trans->receipt;
+
+
+// You may also cancel a transaction:
+$ok = $service->cancel($trans->id);
+$trans = $service->get($trans->id); // Status has now changed.
 if ($trans->status !== Transaction::STATUS_CANCELED) {
     throw new Exception();
 }

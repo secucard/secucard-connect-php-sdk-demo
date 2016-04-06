@@ -1,0 +1,22 @@
+{% extends "base.twig" %}
+
+{% block project %}Demo 03{% endblock %}
+
+{% block title %}Demo 03{% endblock %}
+
+
+{% set nav = [
+    {
+        name:"Device authorisation",
+        url: urlFor("authorisation")
+    },
+    {
+        name:"Create transaction",
+        url: urlFor("transaction")
+    },
+    {
+        name:"Settings",
+        url: urlFor("settings")
+    }
+]
+%}
