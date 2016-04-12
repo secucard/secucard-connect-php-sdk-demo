@@ -5,7 +5,7 @@ use Slim\Slim;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 
-include_once "init.php";
+include_once __DIR__ . "/init.php";
 
 /*
  * Prepare demo app

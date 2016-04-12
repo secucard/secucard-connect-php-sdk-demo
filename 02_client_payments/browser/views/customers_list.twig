@@ -1,0 +1,35 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">List of Customers</h3>
+    </div>
+    <div class="panel-body">
+
+        <table class="table table-condensed table-hover">
+
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Salutation</th>
+                <th>Name</th>
+                <th>Company name</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for item in list %}
+            <tr>
+                <th scope="row">{{ item.id }}</th>
+                <td>{{ item.contact.salutation }}</td>
+                <td>{{ item.contact.name }}</td>
+                <td>{{ item.contact.companyname }}</td>
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>

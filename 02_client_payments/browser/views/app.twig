@@ -1,0 +1,34 @@
+{% extends "base.twig" %}
+
+{% block project %}Demo 02{% endblock %}
+
+{% block title %}Demo 02{% endblock %}
+
+
+{% set nav = [
+    {
+        name:"Start page",
+        url: urlFor("index")
+    },
+    {
+        name:"Customers",
+        url: urlFor("customer")
+    },
+    {
+        name:"Containers",
+        url: urlFor("container")
+    },
+    {
+        name:"Secupaydebits",
+        url: urlFor("secupaydebit")
+    },
+    {
+        name:"Secupayprepays",
+        url: urlFor("secupayprepay")
+    },
+    {
+        name:"Settings",
+        url: urlFor("settings")
+    }
+]
+%}
