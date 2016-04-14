@@ -7,6 +7,7 @@
 
 use SecucardConnect\Auth\ClientCredentials;
 use SecucardConnect\Client\DummyStorage;
+use SecucardConnect\Product\Payment\Model\CloneParams;
 use SecucardConnect\Product\Payment\Model\Contract;
 use SecucardConnect\Product\Payment\Model\Data;
 use SecucardConnect\SecucardConnect;
@@ -21,12 +22,13 @@ $config = [
     'debug' => true
 ];
 
-$logger = new Logger(fopen("php://stdout", "a"), true);
+// This just the internal logger impl. for demo purposes! For production you may use a library like Monolog.
+$logger = new Logger(null, true);
 
+// Use DummyStorage for demo purposes only, in production use FileStorage or your own implementation.
 $store = new DummyStorage();
 
-// payment product uses client_credentials auth so either provide valid refresh token here or obtain token by processing
-// the auth flow, see \SecucardConnect\Auth\ClientCredentials
+// payment product always uses ClientCredentials
 $cred = new ClientCredentials('@your-client-id', '@your-client-secret');
 
 // initialize the client
@@ -42,7 +44,7 @@ $allow_transactions = true;
 // use url_push , when you want to use other url_push than from parent contract
 $url_push = null;
 
-$params = new \SecucardConnect\Product\Payment\Model\CloneParams($project_name, $payment_data, $allow_transactions, $url_push);
+$params = new CloneParams($project_name, $payment_data, $allow_transactions, $url_push);
 
 try {
     $contract = $service->cloneMyContract($params);
