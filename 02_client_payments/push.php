@@ -35,8 +35,8 @@ $cred = new ClientCredentials('@your-client-id', '@your-client-secret');
 $secucard = new SecucardConnect($config, $logger, $store, $store, $cred);
 
 // Register function to handle new/changed objects
-$secucard->payment->customers->onCustomerChanged(function ($customer) {
-    var_dump($customer);
+$secucard->payment->secupaydebits->onSecupayDebitChanged(function ($obj) {
+    var_dump($obj);
 });
 
 // simulate sample push data
@@ -44,11 +44,11 @@ $secucard->payment->customers->onCustomerChanged(function ($customer) {
 $raw_event_data = '{
     "object":"event.pushes",
     "id":"EVT_123456789",
-    "target":"payment.customers",
+    "target":"payment.secupaydebits",
     "type":"changed",
     "data":[
         {
-            "id":"PCU_3TGCQFGCR2Y8ZHPEB5GQGYPNRQUUAE"
+            "id":"<your-ident-request-id>"
         }
     ]
 }';
