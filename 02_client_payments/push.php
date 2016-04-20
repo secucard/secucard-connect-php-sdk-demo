@@ -63,6 +63,3 @@ try {
 } catch (Exception $e) {
     echo 'Error message: ' . $e->getMessage() . "\n";
 }
-
-// sleep before exit to give the event handler time to finish
-sleep(10);
