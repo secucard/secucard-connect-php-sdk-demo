@@ -36,6 +36,7 @@ $secucard = new SecucardConnect($config, $logger, $store, $store, $cred);
 
 // Register function to handle new/changed objects
 $secucard->payment->secupaydebits->onSecupayDebitChanged(function ($obj) {
+    // function is really simple, just print the updated object with data
     var_dump($obj);
 });
 
@@ -48,7 +49,8 @@ $raw_event_data = '{
     "type":"changed",
     "data":[
         {
-            "id":"<your-ident-request-id>"
+            "object":"payment.secupaydebits",
+            "id":"<your-payment-secupaydebits-id>"
         }
     ]
 }';

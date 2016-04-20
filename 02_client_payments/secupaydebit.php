@@ -74,3 +74,9 @@ if ($debit->id) {
 } else {
     echo 'Debit creation failed'. "\n";
 }
+
+/** to cancel the transaction you would use:
+// the contract is is null (if the transaction was created by your main contract or the id of cloned contract that was used to create transaction:
+$contract_id = empty($contract) null : $contract->id;
+$secucard->payment->secupaydebits->cancel($prepay->id, $contract_id));
+/**/
