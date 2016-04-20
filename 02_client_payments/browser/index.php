@@ -16,6 +16,7 @@ require_once __DIR__ . "/lib/init.php";
 /*
  * Register helper for auth check
  */
+
 class toolClass
 {
     public function authCheck($app, $secucard)
@@ -145,7 +146,12 @@ $app->map('/container', function () use ($app, $secucard) {
         $container_data->owner = $app->request->post('owner');
         $container_data->iban = $app->request->post('iban');
 
+        $customer = new Customer();
+        $customer->object = 'payment.customers';
+        $customer->id = $app->request->post('customer_id');
+
         $new_container = new Container();
+        $new_container->customer = $customer;
         $new_container->private = $container_data;
 
         try {
@@ -358,7 +364,8 @@ $app->map('/settings', function () use ($app, $secucard, $config_sdk, $client_id
         $credentials = array(
             'client_id' => $app->request->post('client_id'),
             'client_secret' => $app->request->post('client_secret'),
-            'server_host' => $app->request->post('server_host')
+            // use trim to remove slashes from the beginning and end of server_host
+            'server_host' => trim($app->request->post('server_host'), '/'),
         );
 
         // overwrite

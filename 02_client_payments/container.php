@@ -7,6 +7,7 @@
 
 use SecucardConnect\Auth\ClientCredentials;
 use SecucardConnect\Client\DummyStorage;
+use SecucardConnect\Product\Payment\Model\Customer;
 use SecucardConnect\Product\Payment\Model\Container;
 use SecucardConnect\Product\Payment\Model\Data;
 use SecucardConnect\SecucardConnect;
@@ -48,8 +49,14 @@ $container_data = new Data();
 $container_data->iban = '@container-iban';
 $container_data->owner = '@account-owner-name';
 
+// the customer reference for the container is optional, but we strongly recommend it
+$customer = new Customer();
+$customer->object = 'payment.customers';
+$customer->id = '@your-already-created-customer-id';
+
 $container = new Container();
 $container->private = $container_data;
+$container->customer = $customer;
 $logger->debug('object data initialized');
 
 try {

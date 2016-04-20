@@ -9,6 +9,7 @@
             <thead>
             <tr>
                 <th>ID</th>
+                <th>Customer</th>
                 <th>Owner</th>
                 <th>IBAN</th>
                 <th>BIC</th>
@@ -21,6 +22,7 @@
             {% for item in list %}
             <tr>
                 <th scope="row">{{ item.id }}</th>
+                <td>{{ item.customer.id }}</td>
                 <td>{{ item.public.owner }}</td>
                 <td>{{ item.public.iban }}</td>
                 <td>{{ item.public.bic }}</td>

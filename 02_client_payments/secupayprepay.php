@@ -22,12 +22,13 @@ $config = [
 'debug' => true
 ];
 
-$logger = new Logger(fopen("php://stdout", "a"), true);
+// This just the internal logger impl. for demo purposes! For production you may use a library like Monolog.
+$logger = new Logger(null, true);
 
+// Use DummyStorage for demo purposes only, in production use FileStorage or your own implementation.
 $store = new DummyStorage();
 
-// payment product uses client_credentials auth so either provide valid refresh token here or obtain token by processing
-// the auth flow, see \SecucardConnect\Auth\ClientCredentials
+// payment product always uses ClientCredentials
 $cred = new ClientCredentials('@your-client-id', '@your-client-secret');
 
 $secucard = new SecucardConnect($config, $logger, $store, $store, $cred);
