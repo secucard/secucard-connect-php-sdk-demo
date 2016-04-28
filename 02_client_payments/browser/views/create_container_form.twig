@@ -16,6 +16,13 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="inputContractId" class="col-sm-2 control-label">ContractID (optional)</label>
+                    <div class="col-sm-10">
+                        <input name="contract_id" value="{{ form.contract_id }}" type="text" class="form-control" id="inputContractId" placeholder="PCR_xxx">
+                        (Contract id that will be used for Mandate creation)
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="inputOwner" class="col-sm-2 control-label">Account owner</label>
                     <div class="col-sm-10">
                         <input name="owner" value="{{ form.owner }}" type="text" class="form-control" id="inputOwner">

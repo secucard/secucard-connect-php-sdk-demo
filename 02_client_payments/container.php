@@ -23,7 +23,7 @@ $config = [
     'debug' => true
 ];
 
-$logger = new Logger(fopen("php://stdout", "a"), true);
+$logger = new Logger(null, true);
 
 $store = new DummyStorage();
 

@@ -23,7 +23,7 @@ $config = [
 'debug' => true
 ];
 
-$logger = new Logger(fopen("php://stdout", "a"), true);
+$logger = new Logger(null, true);
 
 $store = new DummyStorage();
 
@@ -38,10 +38,6 @@ $service = $secucard->payment->secupaydebits;
 // it is not allowed to list all already created secupaydebits, so you should store created ids
 
 // new debit payment creation:
-$customer = new Customer();
-$customer->object = 'payment.customers';
-$customer->id = '@your-created-customer-id';
-
 $container = new Container();
 $container->object = 'payment.containers';
 $container->id = '@your-created-container-id';
@@ -54,7 +50,7 @@ $debit->order_id = 'your-order-id';
 $debit->customer = $customer;
 $debit->container = $container;
 
-// if you want to create prepay payment for a cloned contract (contract that you created by cloning main contract)
+// if you want to create debit payment for a cloned contract (contract that you created by cloning main contract)
 /*
 $contract = new Contract();
 $contract->id = 'PCR_XXXX';
@@ -76,7 +72,7 @@ if ($debit->id) {
 }
 
 /** to cancel the transaction you would use:
-// the contract is is null (if the transaction was created by your main contract or the id of cloned contract that was used to create transaction:
+// the $contract_id should be null (if the transaction was created by your main contract or the id of cloned contract that was used to create transaction:
 $contract_id = empty($contract) null : $contract->id;
-$secucard->payment->secupaydebits->cancel($prepay->id, $contract_id));
+$secucard->payment->secupaydebits->cancel($debit->id, $contract_id));
 /**/

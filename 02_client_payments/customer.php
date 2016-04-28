@@ -41,6 +41,16 @@ $customers = $service->getList();
 if ($customers === null) {
     throw new Exception("No Customers found."); // Should not happen
 }
+// if you have many customers , you would need following code to get them all:
+/*
+$expiration_time = '5m';
+$items = [];
+$list = $service->getScrollableList([], $expiration_time);
+while (count($list) != 0) {
+    $items = array_merge($items, $list->items);
+    $list = $service->getNextBatch($list->scrollId);
+}
+ */
 
 // new customer creation:
 

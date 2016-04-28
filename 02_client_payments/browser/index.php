@@ -113,7 +113,7 @@ $app->map('/customer', function () use ($app, $secucard) {
      */
     $items = [];
     $list = $service->getScrollableList([], $expiration_time);
-    while (!$list->reachedEnd) {
+    while (count($list) != 0) {
         $items = array_merge($items, $list->items);
         $list = $service->getNextBatch($list->scrollId);
     }
@@ -154,6 +154,15 @@ $app->map('/container', function () use ($app, $secucard) {
         $new_container->customer = $customer;
         $new_container->private = $container_data;
 
+        // contract is for the container optional, but helpful for mandate generation
+        $contract_id = $app->request->post('contract_id');
+        if (!empty($contract_id)) {
+            $contract = new Contract();
+            $contract->id = $contract_id;
+            $contract->object = 'payment.contracts';
+            $new_container->contract = $contract;
+        }
+
         try {
             $new_container = $service->save($new_container);
         } catch (Exception $e) {
@@ -174,7 +183,7 @@ $app->map('/container', function () use ($app, $secucard) {
      */
     $items = [];
     $list = $service->getScrollableList([], $expiration_time);
-    while (!$list->reachedEnd) {
+    while (count($list) != 0) {
         $items = array_merge($items, $list->items);
         $list = $service->getNextBatch($list->scrollId);
     }
