@@ -23,7 +23,7 @@ $config = [
 ];
 
 // This just the internal logger impl. for demo purposes! For production you may use a library like Monolog.
-$logger = new Logger(null, true);
+$logger = new Logger(fopen("php://stdout", "a"), true);
 
 // Use DummyStorage for demo purposes only, in production use FileStorage or your own implementation.
 $store = new DummyStorage();
