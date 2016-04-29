@@ -10,9 +10,9 @@ var smartTransactions = null;
 
 var demo = {
 
-    init: function (token, host) {
+    init: function (host) {
 
-        console.log('Demo started. Token: ' + token + "; Host: " + host);
+        console.log('Demo started. Host:' + host);
 
         this.$transactionTypeSelect = $('#transactionType');
 
@@ -41,10 +41,24 @@ var demo = {
             config.stompHost = host;
         }
 
+        // Authentication:
+        // To pass a valid token to the JS client you have to set a "retrieveToken" property to the config
+        // which is an URL which will be visited by the JS client and must respond with the current token as JSON
+        config.retrieveToken = "http://<your-server>/token"; // see "token" route at index.php #239
+        // or which may be a function returning a promise like this:
+        // config.retrieveToken = function () {
+        //    token = <token-json> - this token must be eventually somehow retrieved via PHP
+        //    console.log("Use token", token)
+        //    return Promise.resolve(token);
+        // };
+    
+
         // Init client instance
         client = SecucardConnect.create(config);
-
         console.log('Client created');
+
+        client.setCredentials();
+
         smartTransactions = client.getService(SecucardServices.Smart.Transactions);
 
         smartTransactions.on('display', (function (data) {
@@ -53,11 +67,8 @@ var demo = {
             this.$transactionDisplayEvents.JSONView(data, {collapsed: true});
 
         }).bind(this));
-
-        if (token) {
-            this.setTokenAndOpen(token);
-        }
-
+        
+        client.open().then(this.onOpened.bind(this)).catch(this.onConnectionError.bind(this));
     },
 
     onOpened: function () {
@@ -67,18 +78,6 @@ var demo = {
     onConnectionError: function (err) {
 
         console.log('Demo connection error', err);
-
-    },
-
-    setTokenAndOpen: function (token) {
-        var credentials = {
-            token: {
-                access_token: token.access_token,
-                expires_in: token.expires_in,
-            }
-        };
-        client.setCredentials(credentials);
-        return client.open().then(this.onOpened.bind(this)).catch(this.onConnectionError.bind(this));
 
     },
 

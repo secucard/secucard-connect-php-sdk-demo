@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../assets/css/jquery.jsonview.css">
     <link rel="stylesheet" href="../styles/demo.css">
 
-    <script src="https://cdn.secucard.com/am/connect-browser/0.1.x/secucard-connect.min.js"></script>
+    <script src="https://cdn.secucard.com/am/connect-browser/0.2.4/secucard-connect.min.js"></script>
     <script src="../js/demo.js"></script>
     <script src="../assets/js/jquery-2.1.4.min.js"></script>
     <script src="../assets/js/jquery.jsonview.js"></script>
@@ -131,14 +131,9 @@
                 </div>
             </div>
         </div>
-    {% if token %}
         <script>
-            {% autoescape %}
-            var token = {{ token|raw }}
-            {% endautoescape %}
-            demo.init(token, "{{ host }}");
+            demo.init("{{ host }}");
         </script>
-    {% endif %}
     </div>
 
 </form>

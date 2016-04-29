@@ -2,6 +2,7 @@
 
 use SecucardConnect\Auth\RefreshTokenCredentials;
 use SecucardConnect\Client\DummyStorage;
+use SecucardConnect\Client\FileStorage;
 use SecucardConnect\Product\Smart\Model\BasketInfo;
 use SecucardConnect\Product\Smart\Model\Transaction;
 use SecucardConnect\SecucardConnect;
@@ -65,11 +66,12 @@ if (empty($refreshToken)) {
 // In production this must be an instance of DeviceCredentials.
 $cred = new RefreshTokenCredentials($clientId, $clientSec, $refreshToken);
 
-// This just the internal logger impl. for demo purposes! For production you may use a library like Monolog.
-$logger = new Logger(null, true);
 
-// Use DummyStorage for demo purposes only, in production use FileStorage or your own implementation.
-$store = new DummyStorage();
+// This just the internal logger impl. for demo purposes! For production you may use a library like Monolog.
+$logger = new Logger(fopen("php://stdout", "a"), true);
+
+// Use FileStorage or your own implementation.
+$store = new FileStorage('.demostore');
 
 // create client
 $secucard = new SecucardConnect($sdkConfig, $logger, $store, $store, $cred);
@@ -77,13 +79,13 @@ $secucard = new SecucardConnect($sdkConfig, $logger, $store, $store, $cred);
 /*
  * Device authorization page
  */
-$app->map('/', function () use ($app, $secucard, $config_sdk) {
+$app->map('/', function () use ($app, $secucard, $sdkConfig) {
 
     // Get data from cookies
-    $auth_data = $app->getCookie('secucard-connect-demo-3-auth');
+    $auth_data = $app->getCookie('secucard-connect-demo-auth');
     $auth_data = (array)json_decode($auth_data);
 
-    $polling_data = $app->getCookie('secucard-connect-demo-3-polling');
+    $polling_data = $app->getCookie('secucard-connect-demo-polling');
     $polling_data = (array)json_decode($polling_data);
 
     /*
@@ -142,7 +144,7 @@ $app->map('/', function () use ($app, $secucard, $config_sdk) {
     }
 
     // Render view
-    $app->render('authorisation.twig', array('config_sdk' => $config_sdk, 'auth_data' => $auth_data, 'polling' => $polling_data));
+    $app->render('authorisation.twig', array('config_sdk' => $sdkConfig, 'auth_data' => $auth_data, 'polling' => $polling_data));
 
 // the name() call gives the name for current route and you can use it un urlFor() function
 })->via('GET', 'POST')->name('authorisation');
@@ -160,16 +162,21 @@ $app->map('/transaction', function () use ($app, $secucard, $refreshToken, $serv
         $app->stop();
     }
 
-    $amount = $_GET['amount'];
-    $merchantref = $_GET['merchant_ref'];
-    $transref = $_GET['trans_ref'];
-
+    $amount = 0;
+    $merchantref = '';
+    $transref = '';
     $service = null;
     $error = '';
-
     $trans = null;
 
-    if ($amount) {
+    if (isset($_GET['amount'])) {
+        // all transaction related params should exist here
+        $amount = $_GET['amount'];
+        $merchantref = $_GET['merchant_ref'];
+        $transref = $_GET['trans_ref'];
+    }
+
+    if ($amount != 0) {
         // creation:
         $trans = new Transaction();
         $trans->merchantRef = $merchantref;
@@ -187,9 +194,8 @@ $app->map('/transaction', function () use ($app, $secucard, $refreshToken, $serv
 
 
     // Render view
-    $token = $secucard->accessTokenForJS();
-    $app->render('transaction.twig', ['transaction' => $trans, 'token' => $token, 'error' => $error,
-        'amount' => $amount, 'merchant_ref' => $merchantref, 'trans_ref' => $transref, 'host' => $serverHost]);
+    $app->render('transaction.twig', ['transaction' => $trans, 'error' => $error, 'amount' => $amount,
+        'merchant_ref' => $merchantref, 'trans_ref' => $transref, 'host' => $serverHost]);
 
 })->via('GET')->name('transaction');
 
@@ -225,6 +231,18 @@ $app->map('/settings', function () use ($app, $clientId, $clientSec, $refreshTok
     $app->render('settings.twig', array('client_id' => $clientId, 'client_secret' => $clientSec, 'server_host' => $serverHost, 'refresh_token' => $refreshToken));
 
 })->via('GET', 'POST')->name('settings');
+
+
+/*
+ * Return token JSON
+ */
+$app->map('/token', function () use ($app, $secucard, $logger) {
+    $tk = $secucard->accessTokenForJS();
+    $logger->info('Use token: ' . $tk);
+    $app->response->header('Content-Type', 'application/json');
+    $app->response->setBody($tk);
+
+})->via('GET', 'POST');
 
 
 /*
