@@ -38,6 +38,9 @@ require 'create_container.php';
 // Create a new payment transaction with secupay debit
 require 'create_secupay_debit_transaction.php';
 
+// Create a new payment transaction with secupay invoice
+require 'create_secupay_invoice_transaction.php';
+
 // Create a new payment transaction with secupay prepay
 require 'create_secupay_prepay_transaction.php';
 
