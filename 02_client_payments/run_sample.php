@@ -44,6 +44,9 @@ require 'create_secupay_invoice_transaction.php';
 // Create a new payment transaction with secupay prepay
 require 'create_secupay_prepay_transaction.php';
 
+// Cancel a created payment transaction (with secupay prepay)
+require 'cancel_secupay_prepay_transaction.php';
+
 // List all created customers
 require 'get_customer_list.php';
 
