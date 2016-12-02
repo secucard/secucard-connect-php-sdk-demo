@@ -30,10 +30,17 @@ $cred = new ClientCredentials($clientId, $clientSecret);
 $secucard = new SecucardConnect($config, $logger, $store, $store, $cred);
 
 // Create a new customer
-require 'create_customer.php';
+//require 'create_customer.php';
+$customer = new \SecucardConnect\Product\Payment\Model\Customer();
+$customer->id = 'PCU_3RTDR52JG2MWVRXR875XU808V9NJAN';
 
 // Create a new payment container (only needed for secupay debit, not for prepay)
-require 'create_container.php';
+//require 'create_container.php';
+$container = new \SecucardConnect\Product\Payment\Model\Container();
+$container->id = 'PCT_VES0MB7BY2MWVRXR875XU808V9NJAX';
+// Create a new payment transaction with secupay debit
+require 'create_secupay_creditcard_transaction.php';
+exit;
 
 // Create a new payment transaction with secupay debit
 require 'create_secupay_debit_transaction.php';
