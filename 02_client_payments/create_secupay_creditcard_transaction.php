@@ -18,6 +18,13 @@ $creditcard->currency = 'EUR'; // The ISO-4217 code of the currency
 $creditcard->purpose = 'Your purpose from TestShopName';
 $creditcard->order_id = '201600123'; // The shop order id
 $creditcard->customer = $customer;
+// The customer will be redirected to "url_success" after you (the shop) has show him the iframe
+// and he has filled out the form in this iframe.
+// The url of this iframe will be returned in the response of this save request in the variable called "iframe_url".
+$creditcard->url_success = 'http://shop.example.com/success.php';
+// The customer will be redirected to "url_failure" if we don't accept him for credit card payments.
+// You should offer him to pay with other payment methods on this page.
+$creditcard->url_failure = 'http://shop.example.com/failure.php';
 
 try {
     $creditcard = $service->save($creditcard);
@@ -34,10 +41,7 @@ if ($creditcard->id) {
 
 /*
  * To cancel the transaction you would use:
- *
-// The $contract_id should be null (if the transaction was created by your main contract or the id of cloned contract that was used to create transaction:
-$contract_id = empty($contract) null : $contract->id;
-$service->cancel($creditcard->id, $contract_id));
+$service->cancel($creditcard->id));
  */
 
 
@@ -48,14 +52,14 @@ $service->cancel($creditcard->id, $contract_id));
  * =======================
  *
 
-Created secupay creditcard transaction with id: hcbjqubbeeyw1647097
+Created secupay creditcard transaction with id: tjftokgadmln1647246
 Creditcard data: SecucardConnect\Product\Payment\Model\SecupayCreditcard Object
 (
     [customer] => SecucardConnect\Product\Payment\Model\Customer Object
         (
             [created] => DateTime Object
                 (
-                    [date] => 2016-11-28 11:44:47.000000
+                    [date] => 2016-12-01 09:24:22.000000
                     [timezone_type] => 1
                     [timezone] => +01:00
                 )
@@ -109,20 +113,23 @@ Creditcard data: SecucardConnect\Product\Payment\Model\SecupayCreditcard Object
                 )
 
             [merchant] =>
-            [id] => PCU_2NXJMDCWV2MWSWAFX75XURW7V9NJAN
+            [id] => PCU_3RTDR52JG2MWVRXR875XU808V9NJAN
             [object] => payment.customers
         )
 
+    [url_success] => http://shop.example.com/success.php
+    [url_failure] => http://shop.example.com/failure.php
+    [iframe_url] => https://api-testing.secupay-ag.de/payment/tjftokgadmln1647246
     [contract] =>
     [amount] => 100
     [currency] => EUR
     [purpose] => Your purpose from TestShopName
     [order_id] => 201600123
-    [trans_id] => 8475282
-    [status] => accepted
-    [transaction_status] => 85
+    [trans_id] => 0
+    [status] => internal_server_status
+    [transaction_status] =>
     [basket] =>
-    [id] => hcbjqubbeeyw1647097
+    [id] => tjftokgadmln1647246
     [object] => payment.secupaycreditcards
 )
 

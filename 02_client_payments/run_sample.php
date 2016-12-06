@@ -38,9 +38,6 @@ $customer->id = 'PCU_3RTDR52JG2MWVRXR875XU808V9NJAN';
 //require 'create_container.php';
 $container = new \SecucardConnect\Product\Payment\Model\Container();
 $container->id = 'PCT_VES0MB7BY2MWVRXR875XU808V9NJAX';
-// Create a new payment transaction with secupay debit
-require 'create_secupay_creditcard_transaction.php';
-exit;
 
 // Create a new payment transaction with secupay debit
 require 'create_secupay_debit_transaction.php';
@@ -50,6 +47,12 @@ require 'create_secupay_invoice_transaction.php';
 
 // Create a new payment transaction with secupay prepay
 require 'create_secupay_prepay_transaction.php';
+
+// Create a new payment transaction with secupay credit card
+require 'create_secupay_creditcard_transaction.php';
+
+// Get the status of a created payment transaction (with credit card)
+require 'get_secupay_creditcard_transaction.php';
 
 // Cancel a created payment transaction (with secupay prepay)
 require 'cancel_secupay_prepay_transaction.php';
