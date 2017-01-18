@@ -15,18 +15,6 @@ if ($creditcard === null) {
 
 print_r($creditcard);
 
-/*
- * If you have many containers, you would need following code to get them all:
- *
-$expiration_time = '5m';
-$items = [];
-$list = $service->getScrollableList([], $expiration_time);
-while (count($list) != 0) {
-    $items = array_merge($items, $list->items);
-    $list = $service->getNextBatch($list->scrollId);
-}
- */
-
 
 
 

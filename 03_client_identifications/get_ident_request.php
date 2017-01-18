@@ -1,64 +1,20 @@
 <?php
 echo chr(10).chr(10).'####### ' . __FILE__ . ' #######'.chr(10).chr(10);
 
-use SecucardConnect\Product\Common\Model\Address;
-use SecucardConnect\Product\Common\Model\Contact;
-use SecucardConnect\Product\Services\Model\IdentRequest;
-use SecucardConnect\Product\Services\Model\RequestPerson;
-
 /**
  * @var \SecucardConnect\Product\Services\IdentRequestsService $service
  */
 $service = $secucard->services->identrequests;
 
-$identrequests = new IdentRequest();
-$identrequests->type = IdentRequest::TYPE_COMPANY;   // or TYPE_PERSON
-$identrequests->demo = true;
-$identrequests->owner_transaction_id = 'tx_1234567890';
+$identrequest = $service->get('SIR_A804VHQFY2M3VAB4X75XUEYAECA7AN');
 
-$person = new RequestPerson();
-$person->custom1 = 'custom1';
-$person->custom2 = '12345';
-$person->custom3 = null;
-$person->custom4 = null;
-$person->custom5 = null;
-
-$contact = new Contact();
-$contact->salutation = 'Herr';
-$contact->forename = 'Max';
-$contact->surname = 'Musterman3';
-$contact->companyname = 'Testfirma UG';
-$contact->dob = '1996-11-23';
-$contact->birthplace = 'Dresden';
-$contact->nationality = 'DE';
-// specifying email for customer is important, so the customer can receive Mandate information
-$contact->email = 'j.elias@secupay.ag';
-$contact->phone = '+4935955755050';
-
-$address = new Address();
-$address->street = 'Goethestr.';
-$address->street_number = '6';
-$address->city = 'Pulsnitz';
-$address->country = 'DE';
-$address->postal_code = '01896';
-
-$contact->address = $address;
-$person->contact = $contact;
-$identrequests->person[] = $person;
-
-
-try {
-	$identrequests = $service->save($identrequests);
-} catch (\Exception $e) {
-	echo 'Error message: ' . $e->getMessage() . "\n";
+if ($identrequest === null) {
+	throw new Exception("No identification request found.");
 }
 
-if ($identrequests->id) {
-	echo 'Created identification request with id: ' . $identrequests->id . "\n";
-	echo 'Identification request data: ' . print_r($identrequests, true) . "\n";
-} else {
-	echo 'Customer creation failed';
-}
+print_r($identrequest);
+
+
 
 
 /*
@@ -67,11 +23,10 @@ if ($identrequests->id) {
  * =======================
  *
 
-Created identification request with id: SIR_A804VHQFY2M3VAB4X75XUEYAECA7AN
-Identification request data: SecucardConnect\Product\Services\Model\IdentRequest Object
+SecucardConnect\Product\Services\Model\IdentRequest Object
 (
     [type] => company
-    [status] => requested
+    [status] => ok
     [owner] =>
     [owner_transaction_id] => tx_1234567890
     [created] => DateTime Object
@@ -98,7 +53,7 @@ Identification request data: SecucardConnect\Product\Services\Model\IdentRequest
                 (
                     [transacion_id] =>
                     [redirect_url] => https://core-testing.secupay-ag.de/app.core.connector/connect/idents/type/request?id=c70012f96d8fcf
-                    [status] => requested
+                    [status] => ok
                     [owner_transaction_id] =>
                     [contact] => SecucardConnect\Product\Common\Model\Contact Object
                         (
@@ -120,7 +75,7 @@ Identification request data: SecucardConnect\Product\Services\Model\IdentRequest
                             [gender] =>
                             [phone] => +4935955755050
                             [mobile] => +4935955755050
-                            [email] => j.elias@secupay.ag
+                            [email] => example@example.com
                             [picture] =>
                             [pictureObject] =>
                             [url_website] =>
