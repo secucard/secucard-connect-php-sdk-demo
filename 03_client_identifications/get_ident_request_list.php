@@ -9,6 +9,16 @@ $service = $secucard->services->identrequests;
 // You may obtain a global list of available containers
 $identrequests = $service->getList();
 
+/*
+ * If you want to get only a list of entries with a specific status you can use query params:
+ *
+$filter = new \SecucardConnect\Client\QueryParams();
+$filter->count = 5;
+$filter->query = 'status:requested';
+
+$identrequests = $service->getList($filter);
+ */
+
 if ($identrequests === null) {
 	throw new Exception("No identification requests found.");
 }
