@@ -56,6 +56,8 @@ $debit->basket[] = $shipping;
 $contract1 = new Basket();
 $contract1->contract = $contract;
 $debit->basket[] = $contract1;
+$shipping->name = 'Geld für Projekt-Starter';
+$shipping->total = 145;
 */
 
 
