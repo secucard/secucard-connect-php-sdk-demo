@@ -51,6 +51,13 @@ $shipping->tax = 19;
 $shipping->total = 145;
 $debit->basket[] = $shipping;
 
+// add contract
+/*
+$contract1 = new Basket();
+$contract1->contract = $contract;
+$debit->basket[] = $contract1;
+*/
+
 
 try {
     $debit = $service->save($debit);
