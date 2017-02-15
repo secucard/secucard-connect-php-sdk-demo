@@ -26,15 +26,24 @@ if ($identrequests === null) {
 print_r($identrequests);
 
 /*
- * If you have many identification requests, you would need following code to get them all:
+ * If you want to get a full list of entries (or more than 10) you can use the "getScrollableList" call:
  *
-$expiration_time = '5m';
-$items = [];
-$list = $service->getScrollableList([], $expiration_time);
-while (count($list) != 0) {
-    $items = array_merge($items, $list->items);
-    $list = $service->getNextBatch($list->scrollId);
+$filter = new \SecucardConnect\Client\QueryParams();
+$filter->count = 50;
+$identrequests = $service->getScrollableList($filter, '60s');
+
+$total = (int)$identrequests->totalCount;
+$list = (array)$identrequests->items;
+
+if ($total > (int)$identrequests->count) {
+	do {
+		$identrequests = $service->getNextBatch($identrequests->scrollId);
+		$list = array_merge ($list, (array)$identrequests->items);
+	}
+	while ($identrequests->count > 0);
 }
+
+print_r(count($list));
  */
 
 
