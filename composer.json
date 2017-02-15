@@ -1,6 +1,6 @@
 {
   "require": {
-    "secucard/secucard-connect": "~1.1",
+    "secucard/secucard-connect": "dev-release/v1.2.0",
     "slim/slim": "~2.0",
     "slim/views": "0.*",
     "twig/twig": "1.*",
