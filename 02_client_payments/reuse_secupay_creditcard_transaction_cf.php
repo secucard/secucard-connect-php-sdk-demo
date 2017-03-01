@@ -71,7 +71,6 @@ if (isset($payment->redirect_url->iframe_url)) {
 	// TODO Add your redirect here.
 	echo '$redirect_url: ' . $redirect_url . "\n";
 }
-exit;
 
 /*
  * 4) Reuse the created payment transaction (Need a successful first payment transaction)
