@@ -46,15 +46,3 @@ try {
 } catch (Exception $e) {
     echo 'Cloning contract failed, error message: ' . $e->getMessage() . "\n";
 }
-
-
-/*
- * =======================
- * #   SAMPLE RESPONSE   #
- * =======================
- *
-
-Cloning contract failed, error message: Client error: `POST https://connect-testing.secupay-ag.de/api/v2/Payment/Contracts/me/clone` resulted in a `403 ProductNotAllowedException` response:
-{"status":"error","error":"ProductNotAllowedException","error_details":"access denied","error_user":"Es ist ein unbekann (truncated...)
-
- */

@@ -30,18 +30,22 @@ $cred = new ClientCredentials($clientId, $clientSecret);
 $secucard = new SecucardConnect($config, $logger, $store, $store, $cred);
 
 // 1) Create a new project
-require '1_create_new_project.php';
+//require '1_create_new_project.php';
+// -> created ID: PCR_2JEW0SVH82M69WYBX75XUZ5A44P5AH
 
 // For each new crowdfunder:
 
 // 2) Create a new customer
-require '2_create_customer.php';
+//require '2_create_customer.php';
+// -> created ID: PCU_WRNBA4NCU2M69WYF875XUKYA44P5AH
 
 // 3) Create a new (first) payment transaction with credit card for reuse this payment later
-require '3_create_payment_with_subscription.php';
+//require '3_create_payment_with_subscription.php';
+// -> created ID: ocotcwttcxbu1648101
+// -> created subscription ID: 370
 
 // 4) Get the status of a created payment transaction
-require '4_get_payment_status.php';
+//require '4_get_payment_status.php';
 
 // 5) Create a second payment transaction with credit card for the last payment transaction
 require '5_reuse_payment.php';
