@@ -9,11 +9,11 @@ use SecucardConnect\SecucardConnect;
 use SecucardConnect\Util\Logger;
 
 // Define the required config params
-$config = [
+$config = \SecucardConnect\ApiClientConfiguration::createFromArray([
     'base_url' => 'https://connect-testing.secupay-ag.de', // demo server
 //    'base_url' => 'https://connect.secucard.com', // live
     'debug'    => false // TODO Set to TRUE to display the http client logs
-];
+]);
 
 // Create a dummy logger
 $logger = new Logger(fopen("php://stdout", "a"), false); // TODO Set to TRUE to display the sdk logging stuff
