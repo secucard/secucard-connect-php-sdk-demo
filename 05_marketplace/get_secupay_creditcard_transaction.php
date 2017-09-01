@@ -6,7 +6,7 @@ echo chr(10).chr(10).'####### ' . __FILE__ . ' #######'.chr(10).chr(10);
  */
 $service = $secucard->payment->secupaycreditcards;
 
-$creditcard = $service->get('zhzrmbjotubc2209666');
+$creditcard = $service->get($payment->id);
 
 if ($creditcard === null) {
     throw new Exception("No creditcard transaction found.");

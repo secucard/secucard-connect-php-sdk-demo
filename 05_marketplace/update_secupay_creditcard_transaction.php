@@ -15,12 +15,12 @@ $item = new Basket();
 $item->name = 'Booking the Beatles on 29 August';
 $item->total = 9200;
 $item->item_type = Basket::ITEM_TYPE_STAKEHOLDER_PAYMENT;
-$item->contract_id = 'PCR_2C0S37QHH2MASN9V875XU3YFNM8UA6';
+$item->contract_id = $merchant_ids->contract->id;
 $basket[] = $item;
 
 // Add the stakeholder position to the payment transaction
 try {
-    $was_successful = $service->updateBasket('zhzrmbjotubc2209666', $basket);
+    $was_successful = $service->updateBasket($payment->id, $basket);
 
     if ($was_successful) {
         echo 'Update basket was successful.' . "\n";
@@ -35,7 +35,7 @@ try {
 
 // Release the payout lock
 try {
-    $was_successful = $service->reverseAccrual('zhzrmbjotubc2209666');
+    $was_successful = $service->reverseAccrual($payment->id);
 
     if ($was_successful) {
         echo 'Release the payout lock was successful.' . "\n";

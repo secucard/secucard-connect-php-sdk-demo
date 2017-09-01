@@ -47,5 +47,8 @@ require 'create_secupay_creditcard_transaction.php';
 // Get the status of a created payment transaction (with credit card)
 require 'get_secupay_creditcard_transaction.php';
 
+$secucard2 = new SecucardConnect($config, $logger, $store, $store, $credMaster);
+require 'create_merchant.php';
+
 // Add stakeholder position to the basket and release the payout lock
 require 'update_secupay_creditcard_transaction.php';
