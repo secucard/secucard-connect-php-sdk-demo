@@ -1,9 +1,6 @@
 <?php
 echo chr(10).chr(10).'####### ' . __FILE__ . ' #######'.chr(10).chr(10);
 
-use SecucardConnect\Product\Payment\Model\CloneParams;
-use SecucardConnect\Product\Payment\Model\Data;
-
 /**
  * @var \SecucardConnect\Product\Payment\ContractsService $service
  */
