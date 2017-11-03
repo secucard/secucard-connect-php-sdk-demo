@@ -52,7 +52,7 @@ if ($container->id) {
  * =======================
  *
 
-Created Container with id: PCT_3PQDC8BX82M00Y8KX75XUMGS6W8XAR
+Created Container with id: PCT_WEGJKJ68U2MFSF95X75XUJHX7ASSAR
 Container data: SecucardConnect\Product\Payment\Model\Container Object
 (
     [customer] => SecucardConnect\Product\Payment\Model\Customer Object
@@ -62,7 +62,8 @@ Container data: SecucardConnect\Product\Payment\Model\Container Object
             [contract] =>
             [contact] =>
             [merchant] =>
-            [id] => PCU_M0PSEHCWK2M00Y8KX75XUMGS6W8XAQ
+            [merchant_customer_id] =>
+            [id] => PCU_ECZ4DPUPT2MFSF95X75XUJHX7ASSAQ
             [object] => payment.customers
         )
 
@@ -82,13 +83,12 @@ Container data: SecucardConnect\Product\Payment\Model\Container Object
             [bankname] => UniCredit Bank - HypoVereinsbank
         )
 
-    [assign] =>
     [type] =>
     [created] => DateTime Object
         (
-            [date] => 2016-10-14 11:49:29.000000
+            [date] => 2017-11-03 15:16:43.000000
             [timezone_type] => 1
-            [timezone] => +02:00
+            [timezone] => +01:00
         )
 
     [updated] =>
@@ -97,14 +97,22 @@ Container data: SecucardConnect\Product\Payment\Model\Container Object
             [created] =>
             [updated] =>
             [parent] =>
-            [merchant] =>
             [allow_cloning] =>
-            [sepa_mandate_inform] =>
-            [id] => PCR_W6AV7JJUJ2YS6WHFR5GQGS99ABZDAP
+            [id] => PCR_2NSCASA2N2MF75F5875XUDD87M8UA6
             [object] => payment.contracts
         )
 
-    [id] => PCT_3PQDC8BX82M00Y8KX75XUMGS6W8XAR
+    [mandate] => SecucardConnect\Product\Payment\Model\Mandate Object
+        (
+            [iban] => DE62100208900001317270
+            [bic] => HYVEDEMM488
+            [type] => COR1
+            [identification] => PAM/ACSQ42PH82PO4660K
+            [status] => 1
+            [sepa_mandate_id] => 431814
+        )
+
+    [id] => PCT_WEGJKJ68U2MFSF95X75XUJHX7ASSAR
     [object] => payment.containers
 )
 
