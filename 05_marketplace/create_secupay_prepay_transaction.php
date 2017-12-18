@@ -5,6 +5,10 @@ use SecucardConnect\Product\Payment\Model\SecupayPrepay;
 use SecucardConnect\Product\Payment\Model\RedirectUrl;
 use SecucardConnect\Product\Payment\Model\Basket;
 
+const CONTRACT_ID_PLATFORM   = 'PCR_2NSCASA2N2MF75F5875XUDD87M8UA6';
+const CONTRACT_ID_MERCHANT_A = 'PCR_2TSA6QWY02MHNG9W875XU0PKC6DNA7';
+const CONTRACT_ID_MERCHANT_B = 'PCR_3XDEP6RBA2MHNGBV875XUBTKC6DNA7';
+
 /**
  * @var \SecucardConnect\Product\Payment\SecupayPrepaysService $service
  */
@@ -28,12 +32,12 @@ $total = 0;
 $payment->basket = [];
 
 /*
- * Define the first sub-transaction
+ * Define the first sub-transaction (for merchant A)
  */
 {
     $sub_total_1 = 0;
     $item_1 = new Basket();
-    $item_1->contract_id = 'PCR_2TSA6QWY02MHNG9W875XU0PKC6DNA7'; // The contract id of the first merchant/project
+    $item_1->contract_id = CONTRACT_ID_MERCHANT_A;
     $item_1->item_type = Basket::ITEM_TYPE_SUB_TRANSACTION;
     $item_1->name = 'Position 1 of Order 000x';
 
@@ -62,7 +66,7 @@ $payment->basket = [];
          * Define the second sub item
          */
         $sub_item_1_2 = new Basket();
-        $sub_item_1_2->contract_id = 'PCR_2NSCASA2N2MF75F5875XUDD87M8UA6'; // The contract id of the platform
+        $sub_item_1_2->contract_id = CONTRACT_ID_PLATFORM;
         $sub_item_1_2->item_type = Basket::ITEM_TYPE_STAKEHOLDER_PAYMENT;
         $sub_item_1_2->name = 'platform provision';
         $sub_item_1_2->total = 200;
@@ -81,12 +85,12 @@ $payment->basket = [];
 }
 
 /*
- * Define the second sub-transaction
+ * Define the second sub-transaction (for merchant A)
  */
 {
     $sub_total_2 = 0;
     $item_2 = new Basket();
-    $item_2->contract_id = 'PCR_2TSA6QWY02MHNG9W875XU0PKC6DNA7'; // The contract id of the first merchant/project
+    $item_2->contract_id = CONTRACT_ID_MERCHANT_A;
     $item_2->item_type = Basket::ITEM_TYPE_SUB_TRANSACTION;
     $item_2->name = 'Position 2 of Order 000x';
 
@@ -115,7 +119,7 @@ $payment->basket = [];
          * Define the second sub item
          */
         $sub_item_2_2 = new Basket();
-        $sub_item_2_2->contract_id = 'PCR_2NSCASA2N2MF75F5875XUDD87M8UA6'; // The contract id of the platform
+        $sub_item_2_2->contract_id = CONTRACT_ID_PLATFORM;
         $sub_item_2_2->item_type = Basket::ITEM_TYPE_STAKEHOLDER_PAYMENT;
         $sub_item_2_2->name = 'platform provision';
         $sub_item_2_2->total = 100;
@@ -134,12 +138,12 @@ $payment->basket = [];
 }
 
 /*
- * Define the third sub-transaction
+ * Define the third sub-transaction (for merchant B)
  */
 {
     $sub_total_3 = 0;
     $item_3 = new Basket();
-    $item_3->contract_id = 'PCR_3XDEP6RBA2MHNGBV875XUBTKC6DNA7'; // The contract id of the second merchant/project
+    $item_3->contract_id = CONTRACT_ID_MERCHANT_B;
     $item_3->item_type = Basket::ITEM_TYPE_SUB_TRANSACTION;
     $item_3->name = 'Position 3 of Order 000x';
 
@@ -168,7 +172,7 @@ $payment->basket = [];
          * Define the second sub item
          */
         $sub_item_3_2 = new Basket();
-        $sub_item_3_2->contract_id = 'PCR_2NSCASA2N2MF75F5875XUDD87M8UA6'; // The contract id of the platform
+        $sub_item_3_2->contract_id = CONTRACT_ID_PLATFORM;
         $sub_item_3_2->item_type = Basket::ITEM_TYPE_STAKEHOLDER_PAYMENT;
         $sub_item_3_2->name = 'platform provision';
         $sub_item_3_2->total = 500;
