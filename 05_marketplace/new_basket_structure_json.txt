@@ -1,0 +1,72 @@
+  "basket": [
+    {
+      "contract_id": "PCR_123ABC",
+      "item_type": "sub_transaction",
+      "name": "Position 1 of Order 000x",
+      "total": 2000,
+      "sub_basket": [
+        {
+          "quantity": 2,
+          "name": "Item A",
+          "ean": "EAN001",
+          "tax": 19,
+          "total": 1800,
+          "price": 900,
+          "item_type": "article"
+        },
+        {
+          "contract_id": "PCR_PLATFORM123",
+          "item_type": "stakeholder_payment",
+          "name": "platform provision",
+          "total": 200
+        }
+      ]
+    },
+    {
+      "contract_id": "PCR_123ABC",
+      "item_type": "sub_transaction",
+      "name": "Position 2 of Order 000x",
+      "total": 1100,
+      "sub_basket": [
+        {
+          "quantity": 1,
+          "name": "Item B",
+          "ean": "EAN002",
+          "tax": 19,
+          "total": 1000,
+          "price": 1000,
+          "item_type": "article"
+        },
+        {
+          "contract_id": "PCR_PLATFORM123",
+          "item_type": "stakeholder_payment",
+          "name": "platform provision",
+          "total": 100
+        }
+      ]
+    },
+    {
+      "contract_id": "PCR_987XYZ",
+      "item_type": "sub_transaction",
+      "name": "Position 3 of Order 000x",
+      "total": 5000,
+      "sub_basket": [
+        {
+          "quantity": 1,
+          "name": "Item D",
+          "ean": "EAN004",
+          "tax": 19,
+          "total": 4500,
+          "price": 4500,
+          "item_type": "article"
+        },
+        {
+          "contract_id": "PCR_PLATFORM123",
+
+          "item_type": "stakeholder_payment",
+          "name": "platform provision",
+          "total": 500
+        }
+      ]
+    }
+  ]
