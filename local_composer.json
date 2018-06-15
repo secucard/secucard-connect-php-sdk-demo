@@ -1,0 +1,14 @@
+{
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../secucard-connect-php-sdk",
+      "options": {
+        "symlink": true
+      }
+    }
+  ],
+  "require": {
+    "secucard/secucard-connect": "*"
+  }
+}

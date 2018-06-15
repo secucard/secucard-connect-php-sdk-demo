@@ -1,0 +1,80 @@
+{
+  "basket":[
+    {
+      "item_type":"sub_transaction",
+      "name":"Position 1 aus Bestellung 000x",
+      "total":1900,
+      "apikey":"APIKEY_SUPPLIER",
+      "reference_id":"52534",
+      "sub_basket":[
+        {
+          "item_type":"article",
+          "quantity":2,
+          "name":"Position 1 Artikel A",
+          "ean":"EAN001",
+          "tax":19,
+          "total":1800,
+          "price":900,
+          "reference_id":"52534.1"
+        },
+        {
+          "item_type":"article",
+          "quantity":2,
+          "name":"Position 1 Artikel AA",
+          "ean":"EAN011",
+          "tax":19,
+          "total":100,
+          "price":50,
+          "reference_id":"52534.2"
+        },
+        {
+          "item_type":"stakeholder_payment",
+          "name":"Position 1 plattform provision",
+          "total":200,
+          "apikey":"APIKEY_PLATFORM",
+          "reference_id":"52534.3"
+        },
+        {
+          "item_type":"stakeholder_payment",
+          "name":"Position 1 merchant provision",
+          "total":100,
+          "apikey":"APIKEY_MERCHANT",
+          "reference_id":"52534.4"
+        }
+      ]
+    },
+    {
+      "item_type":"sub_transaction",
+      "name":"Position 2 aus Bestellung 000x",
+      "total":1000,
+      "apikey":"APIKEY_SUPPLIER",
+      "reference_id":"52535",
+      "sub_basket":[
+        {
+          "item_type":"article",
+          "quantity":1,
+          "name":"Position 2 Artikel A",
+          "ean":"EAN002",
+          "tax":19,
+          "total":1000,
+          "price":1000,
+          "reference_id":"52535.1"
+        },
+        {
+          "item_type":"stakeholder_payment",
+          "name":"Position 2 plattform provision",
+          "total":200,
+          "apikey":"APIKEY_PLATFORM",
+          "reference_id":"52535.2"
+        },
+        {
+          "item_type":"stakeholder_payment",
+          "name":"Position 2 merchant provision",
+          "total":100,
+          "apikey":"APIKEY_MERCHANT",
+          "reference_id":"52535.3"
+        }
+      ]
+    }
+  ]
+}
