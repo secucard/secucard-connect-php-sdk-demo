@@ -48,9 +48,14 @@ $secucard = new SecucardConnect($config, $logger, $store, $store, $cred);
 //require '4_get_payment_status.php';
 
 // 5) Create a second payment transaction with credit card for the last payment transaction
-require '5_reuse_payment.php';
+//require '5_reuse_payment.php';
 
-// 6) Reverse accrual
-// TODO r.simlinger: require '6_reverse_accrual.php';
+// 6) Get details about the payout of a project
+//require "6_get_project_details.php";
 
+// 7) Reverse accrual
+// TODO r.simlinger: require '7_reverse_accrual.php';
+
+// 8) Upload Ident Data
+//require "8_upload_ident_data.php";
 
