@@ -14,7 +14,7 @@ use SecucardConnect\Product\Payment\Model\Basket;
 $service = $secucard->payment->secupaydebits;
 
 $debit = new SecupayDebit();
-$debit->amount = 245; // Amount in cents (or in the smallest unit of the given currency)
+$debit->amount = 195; // Amount in cents (or in the smallest unit of the given currency)
 $debit->currency = 'EUR'; // The ISO-4217 code of the currency
 $debit->purpose = 'Your purpose from TestShopName';
 $debit->order_id = '201600123'; // The shop order id

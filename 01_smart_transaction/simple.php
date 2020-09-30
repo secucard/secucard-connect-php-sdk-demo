@@ -105,6 +105,6 @@ $receiptLines = $trans->receipt;
 // You may also cancel a transaction:
 $ok = $service->cancel($trans->id);
 $trans = $service->get($trans->id); // Status has now changed.
-if ($trans->status !== Transaction::STATUS_CANCELED) {
+if ($trans->status !== Transaction::STATUS_CANCELLED) {
     throw new Exception();
 }
