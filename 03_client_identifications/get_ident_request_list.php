@@ -208,7 +208,7 @@ SecucardConnect\Product\Common\Model\BaseCollection Object
                                                     [street_number] => 6a
                                                     [city] => ExampleCity
                                                     [postal_code] => 01234
-                                                    [country] => DEUTSCHLAND
+                                                    [country] => DE
                                                     [id] =>
                                                     [object] =>
                                                 )
