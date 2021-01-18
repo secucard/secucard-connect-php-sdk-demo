@@ -111,7 +111,7 @@ Prepay data: SecucardConnect\Product\Payment\Model\SecupayPrepay Object
                             [street_number] => 6a
                             [city] => ExampleCity
                             [postal_code] => 01234
-                            [country] => Deutschland
+                            [country] => DE
                             [id] =>
                             [object] =>
                         )
