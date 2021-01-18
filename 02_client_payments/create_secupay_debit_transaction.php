@@ -145,7 +145,7 @@ Debit data: SecucardConnect\Product\Payment\Model\SecupayDebit Object
                                     [street_number] => 6a
                                     [city] => ExampleCity
                                     [postal_code] => 01234
-                                    [country] => Deutschland
+                                    [country] => DE
                                     [id] =>
                                     [object] =>
                                 )
