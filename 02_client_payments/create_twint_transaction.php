@@ -95,7 +95,7 @@ Payment data: SecucardConnect\Product\Payment\Model\Transaction Object
                             [street_number] => 6a
                             [city] => ExampleCity
                             [postal_code] => 01234
-                            [country] => Deutschland
+                            [country] => DE
                             [additional_address_data] =>
                             [id] =>
                             [object] =>

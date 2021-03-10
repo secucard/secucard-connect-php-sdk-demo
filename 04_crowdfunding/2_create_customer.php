@@ -27,7 +27,7 @@ $address = new Address();
 $address->street = 'Example Street';
 $address->street_number = '6a';
 $address->city = 'ExampleCity';
-$address->country = 'Deutschland';
+$address->country = 'DE';
 $address->postal_code = '01234';
 
 $contact->address = $address;
