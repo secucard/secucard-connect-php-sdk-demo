@@ -1,5 +1,5 @@
 {
   "require": {
-    "secucard/secucard-connect": "^1.20"
+    "secucard/secucard-connect": "^1.21"
   }
 }

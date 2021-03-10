@@ -5,6 +5,7 @@ echo chr(10).chr(10).'####### ' . __FILE__ . ' #######'.chr(10).chr(10);
  * NOTE: It is not allowed to list all already created secupay creditcard transactions, so you should store created ids.
  */
 
+use SecucardConnect\Product\Payment\Model\RedirectUrl;
 use SecucardConnect\Product\Payment\Model\SecupayCreditcard;
 
 /**
@@ -18,13 +19,14 @@ $creditcard->currency = 'EUR'; // The ISO-4217 code of the currency
 $creditcard->purpose = 'Your purpose from TestShopName';
 $creditcard->order_id = '201600123'; // The shop order id
 $creditcard->customer = $customer;
+$creditcard->redirect_url = new RedirectUrl();
 // The customer will be redirected to "url_success" after you (the shop) has show him the iframe
 // and he has filled out the form in this iframe.
 // The url of this iframe will be returned in the response of this save request in the variable called "iframe_url".
-$creditcard->url_success = 'http://shop.example.com/success.php';
+$creditcard->redirect_url->url_success = 'http://shop.example.com/success.php';
 // The customer will be redirected to "url_failure" if we don't accept him for credit card payments.
 // You should offer him to pay with other payment methods on this page.
-$creditcard->url_failure = 'http://shop.example.com/failure.php';
+$creditcard->redirect_url->url_failure = 'http://shop.example.com/failure.php';
 
 try {
     $creditcard = $service->save($creditcard);

@@ -29,6 +29,9 @@ $cred = new ClientCredentials($clientId, $clientSecret);
 // Initialize the SecucardConnect client
 $secucard = new SecucardConnect($config, $logger, $store, $store, $cred);
 
+// Get enabled payment methods
+require 'get_payment_methods.php';
+
 // Create a new customer
 require 'create_customer.php';
 

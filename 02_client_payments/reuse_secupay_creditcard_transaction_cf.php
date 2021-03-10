@@ -5,7 +5,6 @@ echo chr(10).chr(10).'####### ' . __FILE__ . ' #######'.chr(10).chr(10);
  * NOTE: It is not allowed to list all already created secupay payment transactions, so you should store created ids.
  */
 
-use SecucardConnect\Product\Common\Model\ApiData;
 use SecucardConnect\Product\Payment\Model\SecupayCreditcard;
 use SecucardConnect\Product\Payment\Model\Basket;
 use SecucardConnect\Product\Payment\Model\Customer;
@@ -21,8 +20,7 @@ $service = $secucard->payment->secupaycreditcards;
  * 1) Start first payment (f.e. set-up fee)
  */
 $payment = new SecupayCreditcard();
-$payment->api_data = new ApiData();
-$payment->api_data->demo = true;
+$payment->demo = true;
 $payment->amount = 1000; // Amount in cents (or in the smallest unit of the given currency)
 $payment->currency = 'EUR'; // Can not changed for a created subscription!
 $payment->purpose = 'Set-up fee for www.example.com';
@@ -77,8 +75,7 @@ if (isset($payment->redirect_url->iframe_url)) {
  */
 $subscription_id = 359;
 $payment = new SecupayCreditcard();
-$payment->api_data = new ApiData();
-$payment->api_data->demo = true;
+$payment->demo = true;
 $payment->currency = 'EUR'; // The ISO-4217 code of the currency
 $payment->purpose = 'Your support for project XY';
 $payment->order_id = '201700125'; // The shop order id
