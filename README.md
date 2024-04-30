@@ -3,7 +3,7 @@
 
 # Requirements 
 
-PHP 5.5.0 and later.  
+PHP 7.4.0 and later.  
 Composer.
 
 
