@@ -7,7 +7,7 @@ echo chr(10).chr(10).'####### ' . __FILE__ . ' #######'.chr(10).chr(10);
 $service = $secucard->payment->secupaycreditcards;
 
 // You may obtain a global list of available containers
-$creditcard = $service->get('ocotcwttcxbu1648101');
+$creditcard = $service->get($payment->id); // f.e. "goqsjsrurucx11124568"
 
 if ($creditcard === null) {
     throw new Exception("No creditcard transaction found.");

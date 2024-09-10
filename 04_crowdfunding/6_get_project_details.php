@@ -7,7 +7,7 @@ echo chr(10).chr(10).'####### ' . __FILE__ . ' #######'.chr(10).chr(10);
 $service = $secucard->payment->transactions;
 
 try {
-    $payment = $service->getCrowdFundingData("MRC_WVHJQFQ4JNVYNG5B55TYK748ZCHQP8");
+    $payment = $service->getCrowdFundingData("MRC_WVHJQFQ4JNVYNG5B55TYK748ZCHQP8"); // replace, the demo ID will throw an error
 
     if ($payment) {
         echo 'Payment data: ' . print_r($payment, true) . "\n";
@@ -17,12 +17,14 @@ try {
     }
 } catch (\Exception $e) {
     echo 'Error message: ' . $e->getMessage() . "\n";
+    // Error message: multiple currency not supported
 }
 
 try {
     $query = new \SecucardConnect\Client\QueryParams();
-    $query->query = 'merchant.id = MRC_WVHJQFQ4JNVYNG5B55TYK748ZCHQP8';
-    $payment = $service->getList();
+    $query->count = 1; // default: 20
+    $query->query = 'merchant.id:MRC_WVHJQFQ4JNVYNG5B55TYK748ZCHQP8';
+    $payment = $service->getList($query);
 
     if ($payment) {
         echo 'Payment data: ' . print_r($payment, true) . "\n";

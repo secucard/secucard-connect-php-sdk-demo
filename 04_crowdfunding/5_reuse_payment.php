@@ -18,20 +18,20 @@ $service = $secucard->payment->secupaycreditcards;
 /*
  * 4) Reuse the created payment transaction (Need a successful first payment transaction)
  */
-$subscription_id = 359;
+$subscription_id = 3282;
 $payment = new SecupayCreditcard();
 $payment->demo = true;
 $payment->currency = 'EUR'; // The ISO-4217 code of the currency
 $payment->purpose = 'Your support for project XY';
 $payment->order_id = '201700125'; // The shop order id
 $payment->customer = new Customer();
-$payment->customer->id = 'PCU_T82YMNGCT2M3XGNX875XUB07FK2JA9';
+$payment->customer->id = $customer->id;
 
 // Set the accrual flag, to block the payout to the creator till the crowdfunding phase
 $payment->accrual = true;
 
 // Define the creator of the crowdfunding campaign by using the ID:
-$payment->contract = 'PCR_2JEW0SVH82M69WYBX75XUZ5A44P5AH';
+//$payment->contract = 'PCR_2JEW0SVH82M69WYBX75XUZ5A44P5AH';
 // or by using the (loaded) contract object:
 //$payment->contract = new \SecucardConnect\Product\Payment\Model\Contract();
 //$payment->contract->id = 'PCR_2JEW0SVH82M69WYBX75XUZ5A44P5AH';
@@ -60,7 +60,7 @@ $payment->basket[] = $shipping;
 // For payout: add platform fee
 $fee = new Basket();
 $fee->item_type = Basket::ITEM_TYPE_STAKEHOLDER_PAYMENT;
-$fee->contract_id = 'PCR_3FA40GKZE2M5MFB8X75XUC4R9GUNA5';
+$fee->contract_id = 'GCR_2H69XY35227V2VKP9WRA3SJ0W95RP0';
 $fee->name = 'platform fee';
 $fee->total = 450;
 $payment->basket[] = $fee;
@@ -75,7 +75,15 @@ $payment->basket[] = $pwyw;
 // Calculate total amount
 $payment->amount = 0;
 foreach($payment->basket as $item) {
-	$payment->amount += (int)$item->total;
+    if ($item->item_type === Basket::ITEM_TYPE_STAKEHOLDER_PAYMENT) {
+        continue;
+    }
+
+    if ($item->item_type === Basket::ITEM_TYPE_COUPON) {
+        $payment->amount -= (int)$item->total;
+    } else {
+        $payment->amount += (int)$item->total;
+    }
 }
 
 // Activate the option to reuse the payment transaction

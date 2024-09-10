@@ -25,7 +25,7 @@ $payment->currency = 'EUR'; // Can not changed for a created subscription!
 $payment->purpose = 'Set-up fee for www.example.com';
 $payment->order_id = '201700124'; // The shop order id
 $payment->customer = new Customer();
-$payment->customer->id = 'PCU_T82YMNGCT2M3XGNX875XUB07FK2JA9';
+$payment->customer->id = $customer->id;
 // The customer will be redirected to "url_success" after you (the shop) has show him the iframe
 // and he has filled out the form in this iframe.
 // The url of this iframe will be returned in the response of this save request in the variable called "iframe_url".
